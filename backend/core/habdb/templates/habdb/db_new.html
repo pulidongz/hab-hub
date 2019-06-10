@@ -1,0 +1,142 @@
+{% extends 'habdb/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block content %}
+	<h2 class="dash-title"><strong>New Data</strong></h2>
+	{% if messages %}
+		{% for message in messages %}
+						<div {% if message.tags %}
+								class="alert alert-{{message.tags}}"
+							{% endif %} role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"></span></button>
+							<strong>{{message}}</strong>
+						</div>
+		{% endfor %}
+	{% else %}
+	<div class="row">
+		<!-- Database table options dropdown -->
+        <div class="col-xl-8">
+            <div class="card spur-card">
+                <div class="card-header">
+                    <div class="spur-card-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="spur-card-title">Import Data</div>
+                </div>
+                <div class="card-body">
+                	<div class="form-group col-md-12">
+                		<label><strong>Step 1 - Download CSV Template</strong></label>
+                		<div class="row">
+                			<!-- Sources -->
+	                		<div class="col-md-2" style="padding: 20px">
+		                		<a id="sources" download="Sources.csv" href="{% static 'habdb/downloadable/Sources.csv' %}" title="Sources"><img alt="sources" src="{% static 'habdb/images/csv.png' %}"></a><br>
+		                		<label for="sources"><small>Sources</small></label>
+	                		</div>
+	                		<!-- HABs Data -->
+	                		<div class="col-md-2" style="padding: 20px">
+		                		<a id="habsdata" download="HABs_Data.csv" href="{% static 'habdb/downloadable/HABsData.csv' %}" title="Habs Data"><img alt="habsdata" src="{% static 'habdb/images/csv.png' %}"></a><br>
+		                		<label for="habsdata"><small>HABs Data</small></label>
+	                		</div>
+	                		<!-- Cell Count -->
+	                		<div class="col-md-2" style="padding: 20px">
+		                		<a id="cellcount" download="Cell_Count.csv" href="{% static 'habdb/downloadable/CellCount.csv' %}" title="Cell Count"><img alt="cellcount" src="{% static 'habdb/images/csv.png' %}"></a><br>
+		                		<label for="cellcount"><small>Cell Count</small></label>
+	                		</div>
+	                		<!-- Toxicity -->
+	                		<div class="col-md-2" style="padding: 20px">
+		                		<a id="toxicity" download="Toxicity_Data.csv" href="{% static 'habdb/downloadable/Toxicity.csv' %}" title="Toxicity"><img alt="toxicity" src="{% static 'habdb/images/csv.png' %}"></a><br>
+		                		<label for="toxicity"><small>Toxicity</small></label>
+	                		</div>
+	                		<!-- ChemOce Data -->
+	                		<div class="col-md-2" style="padding: 20px">
+		                		<a id="chemoce" download="Chemical_Oceanography_Data.csv" href="{% static 'habdb/downloadable/ChemOceData.csv' %}" title="ChemOce Data"><img alt="chemocedata" src="{% static 'habdb/images/csv.png' %}"></a><br>
+		                		<label for="chemoce"><small>Chemical Oceanography</small></label>
+	                		</div>
+	                		<!-- PO Data -->
+	                		<div class="col-md-2" style="padding: 20px">
+		                		<a id="podata" download="Physical_Oceanography_Data.csv" href="{% static 'habdb/downloadable/POData.csv' %}" title="PO Data"><img alt="podata" src="{% static 'habdb/images/csv.png' %}"></a><br>
+		                		<label for="podata"><small>Physical Oceanograpy</small></label>
+	                		</div>
+                		</div>
+                	</div>
+                	<form method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                        <div class="form-group col-md-6">
+	                        <label for="{{ batch_form.db_table_dropdown.id_for_label }}">
+	                        	<strong>Step 2 - Choose Table to Add New Data</strong></label></br>
+	                        {{ batch_form.db_table_dropdown }}
+                        </div><br>
+                        <div class="form-group col-md-6">
+		                	<label for="{{ batch_form.file.id_for_label }}">
+		                		<strong>Step 3 - Upload the CSV File</strong></label></br>
+		                    {{ batch_form.file }}
+		                </div><hr>
+		                <button type="submit" class="btn btn-primary" name="upload_file" style="float: right;"><i class="fas fa-cloud-upload-alt"></i> <strong>UPLOAD FILE</strong></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4">
+        	<div class="card spur-card">
+	            <div class="card-header">
+	                <div class="spur-card-icon">
+	                    <i class="fas fa-question-circle"></i>
+	                </div>
+	                <div class="spur-card-title">Need Help?</div>
+	            </div>
+	            <div class="card-body">
+		            <p>You can download a copy of the CSV Template to check for matching headers.</p>
+	            </div>
+	        </div>
+        </div>
+		<!-- FORM - Batch Entry -->
+        <!-- <div class="col-xl-6">
+        	        <div class="card spur-card">
+        	            <div class="card-header">
+        	                <div class="spur-card-icon">
+        	                    <i class="fas fa-chart-bar"></i>
+        	                </div>
+        	                <div class="spur-card-title"> Batch Entry </div>
+        	            </div>
+        	            <div class="card-body">
+        		            <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+        		                <div class="form-group col-md-12">
+        		                    {{ batch_form.file }}
+        		                    <p><small>Upload <strong>*.CSV</strong> file to import data</small></p>
+        		                </div>
+        		                <button type="submit" class="btn btn-primary" name="batch_entry">Upload</button>
+        		            </form>
+        	            </div>
+        	        </div>
+        	    </div>
+            </div> -->
+	
+	<!-- FORM - Individual Entry -->
+	<!-- <div class="row">
+				<div class="col-xl-12">
+					<div class="card spur-card">
+			            <div. class="card-header">
+			                <div class="spur-card-icon">
+			                    <i class="fas fa-chart-bar"></i>
+			                </div>
+			                <div class="spur-card-title"> Individual Entry </div>
+			            </div>
+			            <div class="card-body">
+				            <form method="POST">{% csrf_token %}
+				            	<div class="form-row">
+				            	{% for field in individual_form %}
+				            		<div class="form-group col-md-6">
+				            			{{ field.label_tag }} {{ field }}
+				            		</div>
+				            	{% endfor %}
+				            	</div>
+				                <button type="submit" class="btn btn-primary" name="individual_entry">Save</button>
+				            </form>
+			            </div>
+					</div>
+				</div>
+			</div> -->		
+	{% endif %}
+{% endblock %}

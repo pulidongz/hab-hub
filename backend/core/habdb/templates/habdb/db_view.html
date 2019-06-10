@@ -1,0 +1,90 @@
+{% extends 'habdb/base.html' %}
+{% load django_tables2 %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block content %}
+  	<h2 class="dash-title"><strong>View Data</strong></h2>
+
+ 	<div class="row">
+        <div class="col-xl-12">
+            <div class="card spur-card">
+                <div class="card-header">
+                    <div class="spur-card-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="spur-card-title">HABS Database</div>
+                </div>
+                <div class="card-body">
+                    <form method="POST"> {% csrf_token %}
+                    	{{ db_dropdown_form.db_table_dropdown }}
+	                        <button type="submit" class="btn btn-primary" name="db_dropdown_entry"><i class="fas fa-search"></i> Search</button>
+                    </form>
+                </div>
+                <div class="card-body" id="filter_query">           	
+                	{{ filter_table_form }}
+                	<button type="submit" class="btn btn-primary" name="filter"><i class="fas fa-filter"></i> Filter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	<!-- Dropdown Table -->
+	<!-- <div class="form-group col-md-4">
+		<form method="POST" action="">
+			<label for="dropdown_db_table">HAB Database Tables</label>
+			            	<select id="dropdown_db_table" class="form-control">
+				            <option selected>Choose..</option>
+			            	</select>
+		{{ table_list }}
+		</form>   	
+	</div> -->
+
+	<!-- Table view -->
+	<div class="row">
+		<div class="col-lg-12">
+	        <div class="card spur-card">
+	            <div class="card-header">
+	                    <div class="spur-card-icon">
+	                        <i class="fas fa-table"></i>
+	                    </div>
+	                    <div class="spur-card-title">Table</div>
+	            </div>
+	            <div class="card-body">
+	            	 {% render_table query_results %}
+	                <!-- <table id="myTable" class="table table-hover table-in-card">
+	                    <thead>
+	                            <tr>
+	                                <th>PSGC Code</th>
+	                									<th>Province</th>
+	                									<th># Municipality</th>
+	                									<th># City</th>
+	                									<th># Brgy</th>
+	                									<th>Income Class</th>
+	                									<th>Area</th>
+	                									<th>Longitude</th>
+	                									<th>Latitude</th>
+	                            </tr>
+	                    </thead>
+	                    <tbody>                
+	                        {% for psdata in query_results %}
+	                							<tr>
+	                								<td>{{psdata.prov_id}}</td>
+	                								<td>{{psdata.prov_name}}</td>
+	                								<td>{{psdata.num_muni}}</td>
+	                								<td>{{psdata.num_city}}</td>
+	                								<td>{{psdata.num_brgy}}</td>
+	                								<td>{{psdata.income_class}}</td>
+	                								<td>{{psdata.area}}</td>
+	                								<td>{{psdata.longitude}}</td>
+	                								<td>{{psdata.latitude}}</td>
+	                							</tr> 
+	                							{% endfor %}                       
+	                    </tbody>
+	                </table> -->
+	            </div>
+	        </div>
+    	</div>
+	</div>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% block title %}Portal - <a href="/">Home</a>{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<h3>Hi {{ user.username }}! Welcome to HABS Portal.</h3>
+	<p><a href="{% url 'habdb:dashboard' %}">Dashboard</a></p>
+	<p><a href="{% url 'password_reset' %}">reset password</a></p>
+	<p><a href="{% url 'logout' %}">Logout</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a> | 
+  <a href="{% url 'signup' %}">signup</a>
+{% endif %}
+{% endblock %}
