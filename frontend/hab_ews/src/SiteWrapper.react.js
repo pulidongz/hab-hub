@@ -10,6 +10,7 @@ import {
   List,
   Button,
   RouterContextProvider,
+  Header,
 } from "tabler-react";
 
 import type { NotificationProps } from "tabler-react";
@@ -42,14 +43,20 @@ type navItem = {|
 
 const navBarItems: Array<navItem> = [
   {
-    value: "Home",
+    value: "HAB Portal",
     to: "/",
     icon: "home",
     LinkComponent: withRouter(NavLink),
     useExact: true,
   },
   {
-    value: "Interface",
+    value: "Site Monitoring Viewer",
+    to: "/site-monitoring",
+    icon: "image",
+    LinkComponent: withRouter(NavLink),
+  },
+  {
+    value: "HAB Advisory",
     icon: "box",
     subItems: [
       {
@@ -57,7 +64,7 @@ const navBarItems: Array<navItem> = [
         to: "/cards",
         LinkComponent: withRouter(NavLink),
       },
-      { value: "Charts", to: "/charts", LinkComponent: withRouter(NavLink) },
+      { value: "Data Contribution", to: "/charts", LinkComponent: withRouter(NavLink) },
       {
         value: "Pricing Cards",
         to: "/pricing-cards",
@@ -66,7 +73,7 @@ const navBarItems: Array<navItem> = [
     ],
   },
   {
-    value: "Components",
+    value: "About",
     icon: "calendar",
     subItems: [
       { value: "Maps", to: "/maps", LinkComponent: withRouter(NavLink) },
@@ -112,25 +119,11 @@ const navBarItems: Array<navItem> = [
     icon: "check-square",
     LinkComponent: withRouter(NavLink),
   },
-  {
-    value: "Gallery",
-    to: "/gallery",
-    icon: "image",
-    LinkComponent: withRouter(NavLink),
-  },
-  {
-    icon: "file-text",
-    value: "Documentation",
-    to:
-      process.env.NODE_ENV === "production"
-        ? "https://tabler.github.io/tabler-react/documentation"
-        : "/documentation",
-  },
 ];
 
 const accountDropdownProps = {
-  avatarURL: "./demo/faces/female/25.jpg",
-  name: "Jane Pearson",
+  avatarURL: "./demo/faces/art/pacman.png",
+  name: "HAB Admin",
   description: "Administrator",
   options: [
     { icon: "user", value: "Profile" },
@@ -190,22 +183,8 @@ class SiteWrapper extends React.Component<Props, State> {
       <Site.Wrapper
         headerProps={{
           href: "/",
-          alt: "Tabler React",
-          imageURL: "./demo/brand/tabler.svg",
-          navItems: (
-            <Nav.Item type="div" className="d-none d-md-flex">
-              <Button
-                href="https://github.com/tabler/tabler-react"
-                target="_blank"
-                outline
-                size="sm"
-                RootComponent="a"
-                color="primary"
-              >
-                Source code
-              </Button>
-            </Nav.Item>
-          ),
+          alt: "habs_logo",
+          imageURL: "./demo/brand/habs_logo.png",
           notificationsTray: {
             notificationsObjects,
             markAllAsRead: () =>

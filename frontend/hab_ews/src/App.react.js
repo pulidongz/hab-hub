@@ -22,7 +22,7 @@ import CardsDesignPage from "./interface/CardsDesignPage.react";
 import StoreCardsPage from "./components/StoreCardsPage.react.js";
 import IconPage from "./components/IconPage.react.js";
 import ChartsPage from "./interface/ChartsPage.react";
-import GalleryPage from "./GalleryPage.react";
+import SiteMonitoringPage from "./SiteMonitoringPage.react";
 import MapCardsPage from "./components/MapCardsPage.react";
 import BlogPage from "./components/BlogPage.react";
 
@@ -49,7 +49,7 @@ function App(props: Props): React.Node {
           <Route exact path="/empty-page" component={Empty} />
           <Route exact path="/form-elements" component={FormElementsPage} />
           <Route exact path="/forgot-password" component={ForgotPasswordPage} />
-          <Route exact path="/gallery" component={GalleryPage} />
+          <Route exact path="/site-monitoring" component={SiteMonitoringPage} />
           <Route exact path="/icons" component={IconPage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/maps" component={MapCardsPage} />
