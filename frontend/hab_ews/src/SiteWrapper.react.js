@@ -73,17 +73,7 @@ const navBarItems: Array<navItem> = [
     ],
   },
   {
-    value: "About",
-    icon: "calendar",
-    subItems: [
-      { value: "Maps", to: "/maps", LinkComponent: withRouter(NavLink) },
-      { value: "Icons", to: "/icons", LinkComponent: withRouter(NavLink) },
-      { value: "Store", to: "/store", LinkComponent: withRouter(NavLink) },
-      { value: "Blog", to: "/blog", LinkComponent: withRouter(NavLink) },
-    ],
-  },
-  {
-    value: "Pages",
+    value: "Data Contribution",
     icon: "file",
     subItems: [
       { value: "Profile", to: "/profile", LinkComponent: withRouter(NavLink) },
@@ -98,12 +88,12 @@ const navBarItems: Array<navItem> = [
         to: "/forgot-password",
         LinkComponent: withRouter(NavLink),
       },
-      { value: "400 error", to: "/400", LinkComponent: withRouter(NavLink) },
-      { value: "401 error", to: "/401", LinkComponent: withRouter(NavLink) },
-      { value: "403 error", to: "/403", LinkComponent: withRouter(NavLink) },
-      { value: "404 error", to: "/404", LinkComponent: withRouter(NavLink) },
-      { value: "500 error", to: "/500", LinkComponent: withRouter(NavLink) },
-      { value: "503 error", to: "/503", LinkComponent: withRouter(NavLink) },
+      { value: "video-overlay", to: "/video-overlay", LinkComponent: withRouter(NavLink) },
+      { value: "vector-layers", to: "/vector-layers", LinkComponent: withRouter(NavLink) },
+      { value: "tooltip", to: "/tooltip", LinkComponent: withRouter(NavLink) },
+      { value: "pane", to: "/pane", LinkComponent: withRouter(NavLink) },
+      { value: "other-layers", to: "/other-layers", LinkComponent: withRouter(NavLink) },
+      { value: "layerscontrol", to: "/layerscontrol", LinkComponent: withRouter(NavLink) },
       { value: "Email", to: "/email", LinkComponent: withRouter(NavLink) },
       {
         value: "Empty page",
@@ -111,6 +101,16 @@ const navBarItems: Array<navItem> = [
         LinkComponent: withRouter(NavLink),
       },
       { value: "RTL", to: "/rtl", LinkComponent: withRouter(NavLink) },
+    ],
+  },
+  {
+    value: "About",
+    icon: "calendar",
+    subItems: [
+      { value: "Maps", to: "/maps", LinkComponent: withRouter(NavLink) },
+      { value: "Icons", to: "/icons", LinkComponent: withRouter(NavLink) },
+      { value: "Store", to: "/store", LinkComponent: withRouter(NavLink) },
+      { value: "Blog", to: "/blog", LinkComponent: withRouter(NavLink) },
     ],
   },
   {
@@ -184,7 +184,7 @@ class SiteWrapper extends React.Component<Props, State> {
         headerProps={{
           href: "/",
           alt: "habs_logo",
-          imageURL: "./demo/brand/habs_logo.png",
+          imageURL: "./demo/brand/habs_logo2.png",
           notificationsTray: {
             notificationsObjects,
             markAllAsRead: () =>
@@ -212,30 +212,9 @@ class SiteWrapper extends React.Component<Props, State> {
         navProps={{ itemsObjects: navBarItems }}
         routerContextComponentType={withRouter(RouterContextProvider)}
         footerProps={{
-          links: [
-            <a href="#">First Link</a>,
-            <a href="#">Second Link</a>,
-            <a href="#">Third Link</a>,
-            <a href="#">Fourth Link</a>,
-            <a href="#">Five Link</a>,
-            <a href="#">Sixth Link</a>,
-            <a href="#">Seventh Link</a>,
-            <a href="#">Eigth Link</a>,
-          ],
-          note:
-            "Premium and Open Source dashboard template with responsive and high quality UI. For Free!",
           copyright: (
             <React.Fragment>
               Copyright © 2019
-              <a href="."> Tabler-react</a>. Theme by
-              <a
-                href="https://codecalm.net"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {" "}
-                codecalm.net
-              </a>{" "}
               All rights reserved.
             </React.Fragment>
           ),
@@ -244,23 +223,24 @@ class SiteWrapper extends React.Component<Props, State> {
               <Grid.Col auto={true}>
                 <List className="list-inline list-inline-dots mb-0">
                   <List.Item className="list-inline-item">
-                    <a href="./docs/index.html">Documentation</a>
+                    <a href="./docs/index.html">About the Project</a>
+                  </List.Item>
+                  <List.Item className="list-inline-item">
+                    <a href="./docs/index.html">About the Team</a>
+                  </List.Item>
+                  <List.Item className="list-inline-item">
+                    <a href="./faq.html">Project Partners</a>
                   </List.Item>
                   <List.Item className="list-inline-item">
                     <a href="./faq.html">FAQ</a>
                   </List.Item>
+                  <List.Item className="list-inline-item">
+                    <a href="./faq.html">Site Navigation</a>
+                  </List.Item>
+                  <List.Item className="list-inline-item">
+                    <a href="./faq.html">Data Privacy Policy</a>
+                  </List.Item>
                 </List>
-              </Grid.Col>
-              <Grid.Col auto={true}>
-                <Button
-                  href="https://github.com/tabler/tabler-react"
-                  size="sm"
-                  outline
-                  color="primary"
-                  RootComponent="a"
-                >
-                  Source code
-                </Button>
               </Grid.Col>
             </React.Fragment>
           ),

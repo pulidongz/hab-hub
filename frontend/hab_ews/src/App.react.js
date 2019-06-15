@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import {
   ForgotPasswordPage,
@@ -28,6 +29,15 @@ import BlogPage from "./components/BlogPage.react";
 
 import "tabler-react/dist/Tabler.css";
 
+import VideoOverlayExample from "./leaflet/examples/video-overlay";
+import VectorLayersExample from "./leaflet/examples/vector-layers";
+import TooltipExample from "./leaflet/examples/tooltip";
+import PaneExample from "./leaflet/examples/pane";
+import OtherLayersExample from "./leaflet/examples/other-layers";
+import LayersControlExample from "./leaflet/examples/layers-control";
+
+
+
 type Props = {||};
 
 function App(props: Props): React.Node {
@@ -36,12 +46,12 @@ function App(props: Props): React.Node {
       <Router>
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route exact path="/400" component={Error400} />
-          <Route exact path="/401" component={Error401} />
-          <Route exact path="/403" component={Error403} />
-          <Route exact path="/404" component={Error404} />
-          <Route exact path="/500" component={Error500} />
-          <Route exact path="/503" component={Error503} />
+          <Route exact path="/video-overlay" component={VideoOverlayExample} />
+          <Route exact path="/vector-layers" component={VectorLayersExample} />
+          <Route exact path="/tooltip" component={TooltipExample} />
+          <Route exact path="/pane" component={PaneExample} />
+          <Route exact path="/other-layers" component={OtherLayersExample} />
+          <Route exact path="/layerscontrol" component={LayersControlExample} />
           <Route exact path="/blog" component={BlogPage} />
           <Route exact path="/cards" component={CardsDesignPage} />
           <Route exact path="/charts" component={ChartsPage} />
