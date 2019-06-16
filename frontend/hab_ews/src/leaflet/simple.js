@@ -44,18 +44,19 @@ export default class SimpleExample extends React.Component<{}, State> {
     return (
       <Map center={[12.599512, 121.984222]} zoom={6}>
         <LayersControl position="topright">
-          <BaseLayer checked name="Hyda">
-            <TileLayer
-              attribution='Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-              url="https://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png"
-            />
-          </BaseLayer>
-          <BaseLayer name="ESRI">
+          <BaseLayer checked name="ESRI">
             <TileLayer
               attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
             />
           </BaseLayer>
+          <BaseLayer name="Hyda">
+            <TileLayer
+              attribution='Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+              url="https://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png"
+            />
+          </BaseLayer>
+          
 
           <Overlay checked name="Stations">
             {station.map((station, i) => {

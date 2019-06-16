@@ -16,14 +16,19 @@ import {
   ProfilePage,
 } from "./pages";
 
-import HomePage from "./HomePage.react";
+import HomePage from "./HabPortal.react";
+import SiteMonitoringPage from "./SiteMonitoringPage.react";
+import HabAdvisoryPage from "./HabAdvisoryPage.react";
+import DataContributionPage from "./DataContributionPage.react";
+
+
 import FormElementsPage from "./FormElementsPage.react";
 import PricingCardsPage from "./interface/PricingCardsPage.react";
 import CardsDesignPage from "./interface/CardsDesignPage.react";
 import StoreCardsPage from "./components/StoreCardsPage.react.js";
 import IconPage from "./components/IconPage.react.js";
 import ChartsPage from "./interface/ChartsPage.react";
-import SiteMonitoringPage from "./SiteMonitoringPage.react";
+
 import MapCardsPage from "./components/MapCardsPage.react";
 import BlogPage from "./components/BlogPage.react";
 
@@ -46,6 +51,9 @@ function App(props: Props): React.Node {
       <Router>
         <Switch>
           <Route exact path="/" component={HomePage} />
+          <Route exact path="/site-monitoring" component={SiteMonitoringPage} />
+          <Route exact path="/hab-advisory" component={HabAdvisoryPage} />
+          <Route exact path="/data-contribution" component={DataContributionPage} />
           <Route exact path="/video-overlay" component={VideoOverlayExample} />
           <Route exact path="/vector-layers" component={VectorLayersExample} />
           <Route exact path="/tooltip" component={TooltipExample} />
@@ -59,7 +67,6 @@ function App(props: Props): React.Node {
           <Route exact path="/empty-page" component={Empty} />
           <Route exact path="/form-elements" component={FormElementsPage} />
           <Route exact path="/forgot-password" component={ForgotPasswordPage} />
-          <Route exact path="/site-monitoring" component={SiteMonitoringPage} />
           <Route exact path="/icons" component={IconPage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/maps" component={MapCardsPage} />
