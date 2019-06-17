@@ -37,28 +37,32 @@ class Plankton(models.Model):
 		return self.species
 
 class Sample(models.Model):
-	sample_id 		= 	models.AutoField(primary_key=True)
-	station 		=	models.ForeignKey(Station, on_delete=models.CASCADE)
-	sample_date		= 	models.DateField()
-	sample_depth	= 	models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
-	pressure 		=	models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
-	chl_a			=	models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
-	NO2 			=	models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
-	NO3				=	models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
-	NH3 			=	models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
-	NH4				=	models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
-	PO4				=	models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
+	station = models.ForeignKey(Station, on_delete=models.CASCADE)
+
+	# sample details
+	sample_date = models.DateField()
+	sample_depth = 	models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
+
+	# physico-chemical parameters
+	pressure 	= models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
+	chl_a = models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
+	no2 = models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
+	no3 = models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
+	nh3 = models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
+	nh4 = models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
+	po4 = models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
 
 	def __str__(self):
 		return self.sample_id
 
 class PlanktonSample(models.Model):
-	sample 			=	models.ForeignKey(Sample, on_delete=models.CASCADE)
-	plankton 		=	models.ForeignKey(Plankton, on_delete=models.CASCADE)
-	cell_count 		= 	models.IntegerField()
-	method 			= 	models.CharField(max_length=200)
-	sample_number 	=	models.CharField(max_length=100, null=True, blank=True, default=' ')
-    
+	cell_count = models.IntegerField()
+	method = models.CharField(max_length=200)
+
+	sample_number = models.CharField(max_length=100, null=True, blank=True, default=' ')
+	plankton = models.ForeignKey(Plankton, on_delete=models.CASCADE)
+	sample = models.ForeignKey(Sample, on_delete=models.CASCADE)
+
 	def __str__(self):
 		return self.cell_count
 
