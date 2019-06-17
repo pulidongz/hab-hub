@@ -51,6 +51,8 @@ class Sample(models.Model):
 	nh3 = models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
 	nh4 = models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
 	po4 = models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
+	conductivity = models.DecimalField(max_digits=20, decimal_places=5, null=True, default=0)
+	
 
 	def __str__(self):
 		return self.sample_id
