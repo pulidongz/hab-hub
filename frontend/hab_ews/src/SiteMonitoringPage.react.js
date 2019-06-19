@@ -8,10 +8,7 @@ import {
   Page, 
   Grid,
   Container, 
-  GalleryCard, 
-  Form, 
-  Text,
-  StatsCard,
+  Form,
   Card,
   Button,
 

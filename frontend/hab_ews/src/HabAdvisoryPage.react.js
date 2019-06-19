@@ -3,25 +3,15 @@
 import * as React from "react";
 import Calendar from 'react-calendar';
 
-import SimpleExample from "./leaflet/simple";
 import { 
   Page, 
   Grid,
   Container, 
-  GalleryCard, 
-  Form, 
-  Text,
-  StatsCard,
   Card,
-  Button,
 
 } from "tabler-react";
 
 import SiteWrapper from "./SiteWrapper.react";
-
-import json from "./data/Gallery.Items";
-// TODO:Add GalleryCardList component to avoid insert extra className
-// TODO:Update Page.Header to additional components
 
 function HabAdvisoryPage(): React.Node {
 

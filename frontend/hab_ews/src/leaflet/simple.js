@@ -1,14 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import {
-  Circle,
   FeatureGroup,
   LayerGroup,
   LayersControl,
   Map,
   Marker,
   Popup,
-  Rectangle,
   TileLayer,
   GeoJSON,
 } from 'react-leaflet'
@@ -31,7 +29,7 @@ export default class SimpleExample extends React.Component<{}, State> {
   }
 
   componentDidMount() {
-    axios.get("http://10.199.20.25:8000/api/station/")
+    axios.get("http://localhost:8000/api/station/")
       .then(res => {
         const station = res.data;
         this.setState({ station });

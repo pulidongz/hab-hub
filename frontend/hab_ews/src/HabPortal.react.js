@@ -7,21 +7,9 @@ import SimpleExample from "./leaflet/simple";
 
 import {
   Page,
-  Avatar,
-  Icon,
   Grid,
   Card,
-  Text,
-  Table,
   Alert,
-  Progress,
-  colors,
-  Dropdown,
-  Button,
-  StampCard,
-  StatsCard,
-  ProgressCard,
-  Badge,
   Form,
 } from "tabler-react";
 

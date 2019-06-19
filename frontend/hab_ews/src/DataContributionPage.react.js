@@ -1,18 +1,12 @@
 import * as React from "react";
 
-import SimpleExample from "./leaflet/simple";
 import { 
   Page, 
   Grid,
   Container,
   Table, 
-  GalleryCard, 
-  Form, 
-  Text,
-  StatsCard,
   Card,
   Button,
-  Alert,
   Badge,
   Icon,
 
