@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+     'django.contrib.gis',          # GeoDjango
     
 
     # Local Apps
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'portal.apps.PortalConfig',
 
      # Third party Apps
+     'leaflet',
     'rest_framework',
     'rest_framework.authtoken',
     'crispy_forms',
@@ -91,7 +93,8 @@ WSGI_APPLICATION = 'hab_system.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis', # needed in order to use postgreSQL w/ PostGIS
         'NAME': 'habs_db',
         'USER': 'habadmin',
         'PASSWORD': 'admin',

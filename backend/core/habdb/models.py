@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-
+from django.contrib.gis.db import models as geomodels
 
 # S T A R T   O F   H A B S   R E C E N T   D A T A
 class Station(models.Model):
@@ -8,9 +8,17 @@ class Station(models.Model):
     longitude 		= 	models.DecimalField(max_digits=13, decimal_places=10)
     latitude 		= 	models.DecimalField(max_digits=13, decimal_places=10)
     station_depth 	= 	models.DecimalField(max_digits=10, decimal_places=5)
+    location		=	geomodels.PointField(default='POINT(121.98 12.5)')
 
     def __str__(self):
     	return self.station_name
+
+    class Meta:
+        # order of drop-down list items
+        ordering = ('station_name',)
+
+        # plural form in admin view
+        verbose_name_plural = 'stations'
 
 class Sensor(models.Model):
 	station_name	=	models.ForeignKey(Station, on_delete=models.CASCADE)

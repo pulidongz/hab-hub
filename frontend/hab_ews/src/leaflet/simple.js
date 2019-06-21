@@ -29,10 +29,14 @@ export default class SimpleExample extends React.Component<{}, State> {
   }
 
   componentDidMount() {
-    axios.get("http://localhost:8000/api/station/")
+    /*axios.get("http://10.199.20.25:8000/api/station/")*/ //for ubuntu 001
+    axios.get("http://10.199.20.25:8000/api/station/")     //for localhost
       .then(res => {
         const station = res.data;
         this.setState({ station });
+      })
+      .catch(function (error) {
+      console.log(error);
       })
   }
 
@@ -65,7 +69,7 @@ export default class SimpleExample extends React.Component<{}, State> {
                     position={{lat:station.latitude, lng:station.longitude}}>
                     <Popup>
                       <span>
-                        station: <b>{station.station_name}</b><br />
+                        Station Name: <b>{station.station_name}</b><br />
                         [{station.latitude}, {station.longitude}]<br />
                         depth: {station.station_depth}<br />
                       </span>
