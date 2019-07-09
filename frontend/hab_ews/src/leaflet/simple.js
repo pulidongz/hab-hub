@@ -32,7 +32,7 @@ export default class SimpleExample extends React.Component<{}, State> {
 
   componentDidMount() {
     /*axios.get("http://10.199.20.25:8000/api/station/")*/ //for ubuntu 001
-    axios.get("http://10.199.20.25:8000/api/station/")     //for localhost
+    axios.get("http://localhost:8000/api/station/")     //for localhost
       .then(res => {
         const station = res.data;
         this.setState({ station });
