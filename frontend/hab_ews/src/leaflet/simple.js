@@ -1,17 +1,17 @@
 import React from 'react';
 import axios from 'axios';
 import {
-  Circle,
   FeatureGroup,
   LayerGroup,
   LayersControl,
   Map,
   Marker,
   Popup,
-  Rectangle,
   TileLayer,
   GeoJSON,
 } from 'react-leaflet'
+
+import { popupContent, popupHead, popupText, okText } from "./popupStyle";
 
 type State = {
   lat: number,
@@ -31,10 +31,14 @@ export default class SimpleExample extends React.Component<{}, State> {
   }
 
   componentDidMount() {
-    axios.get("http://10.199.20.25:8000/api/station/")
+    /*axios.get("http://10.199.20.25:8000/api/station/")*/ //for ubuntu 001
+    axios.get("http://localhost:8000/api/station/")     //for localhost
       .then(res => {
         const station = res.data;
         this.setState({ station });
+      })
+      .catch(function (error) {
+      console.log(error);
       })
   }
 
@@ -50,35 +54,79 @@ export default class SimpleExample extends React.Component<{}, State> {
               url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
             />
           </BaseLayer>
-          <BaseLayer name="Hyda">
+          <BaseLayer name="Hydda">
             <TileLayer
               attribution='Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
               url="https://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png"
             />
           </BaseLayer>
           
-
-          <Overlay checked name="Stations">
             {station.map((station, i) => {
               return ( 
-                <LayerGroup>
-                  <Marker 
-                    key={i} 
-                    position={{lat:station.latitude, lng:station.longitude}}>
-                    <Popup>
-                      <span>
-                        station: <b>{station.station_name}</b><br />
-                        [{station.latitude}, {station.longitude}]<br />
-                        depth: {station.station_depth}<br />
-                      </span>
-                    </Popup>
-                  </Marker>
-                </LayerGroup>
-              )
-            })}
-          </Overlay>
 
-          <GeoJSON addData={this.state.station} /> 
+                <Overlay checked name={station.station_name}>
+                  <LayerGroup>
+                    <Marker 
+                      key={i} 
+                      position={{lat:station.latitude, lng:station.longitude}}>
+                      <Popup>
+                        <div style={popupContent}>
+                          <div style={popupHead}>
+                            {station.station_name}
+                          </div>
+                          <div style={popupText}>
+                          <table>
+                            <tr>
+                              <td>Longitude:</td>
+                              <td>{station.longitude}</td> 
+                            </tr>
+                            <tr>
+                              <td>Latitude:</td>
+                              <td>{station.latitude}</td> 
+                            </tr>
+                            <tr>
+                              <td>Depth:</td>
+                              <td>{station.station_depth} m</td> 
+                            </tr>
+                            <tr>
+                              <td>Sensor Last Updated:</td>
+                              <td>dummy</td> 
+                            </tr>
+                            <tr>
+                              <td>Temperature:</td>
+                              <td>0°C</td> 
+                            </tr>
+                            <tr>
+                              <td>Salinity</td>
+                              <td>0</td> 
+                            </tr>
+                            <tr>
+                              <td>pH</td>
+                              <td>0</td> 
+                            </tr>
+                            <tr>
+                              <td>Dissolved Oxygen</td>
+                              <td>0</td> 
+                            </tr>
+                            <tr>
+                              <td>Chlorophyll-a</td>
+                              <td>0</td> 
+                            </tr>
+                            <tr>
+                              <td>Predictive Model Status:</td>
+                              <td>0</td> 
+                            </tr>
+                          </table>
+                          </div>
+                        </div>
+                      </Popup>
+                    </Marker>
+                  </LayerGroup>
+                </Overlay>
+                )
+              })}
+
+
         </LayersControl>
       </Map>
     )

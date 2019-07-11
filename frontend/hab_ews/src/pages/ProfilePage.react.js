@@ -10,9 +10,7 @@ import {
   Form,
   Avatar,
   Profile,
-  List,
   Media,
-  Text,
   Comment,
 } from "tabler-react";
 

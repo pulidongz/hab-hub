@@ -61,9 +61,8 @@ const navBarItems: Array<navItem> = [
   },
   {
     value: "Data Contribution",
-    icon: "file",
     to: "/data-contribution",
-    icon: "box",
+    icon: "file",
     LinkComponent: withRouter(NavLink),
   },
   {
