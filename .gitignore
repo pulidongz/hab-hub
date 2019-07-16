@@ -1,1 +1,3 @@
 *.pyc
+frontend/hab_ews/node_modules/.cache/
+backend/core/habdb/migrations/

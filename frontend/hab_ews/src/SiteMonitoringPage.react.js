@@ -3,7 +3,8 @@
 import * as React from "react";
 import Leaflet from 'leaflet';
 
-import SimpleExample from "./leaflet/simple";
+import MapMonitoring from "./leaflet/map_monitoring";
+
 import { 
   Page, 
   Grid,
@@ -46,8 +47,8 @@ function SiteMonitoringPage(): React.Node {
       <Grid.Row>
         <Grid.Col lg={9}>
           <Container>
-            <SimpleExample>
-            </SimpleExample>
+            <MapMonitoring>
+            </MapMonitoring>
           </Container>
         </Grid.Col>
         <Grid.Col lg={3}>

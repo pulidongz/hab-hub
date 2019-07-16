@@ -3,7 +3,7 @@
 import * as React from "react";
 import Leaflet from 'leaflet';
 
-import SimpleExample from "./leaflet/simple";
+import MapAdvisory from "./leaflet/map_advisory";
 
 import {
   Page,
@@ -86,8 +86,8 @@ function Home() {
                 </Alert>
               </Grid.Row>
               <Grid.Row>
-                <SimpleExample>
-                </SimpleExample>
+                <MapAdvisory>
+                </MapAdvisory>
               </Grid.Row>
             </Grid.Col> 
         </Grid.Row>

@@ -21,7 +21,7 @@ type State = {
 
 const { BaseLayer, Overlay } = LayersControl
 
-export default class SimpleExample extends React.Component<{}, State> {
+export default class MapMonitoring extends React.Component<{}, State> {
 
   constructor(props) {
     super(props);
@@ -48,13 +48,13 @@ export default class SimpleExample extends React.Component<{}, State> {
     return (
       <Map center={[12.599512, 121.984222]} zoom={6}>
         <LayersControl position="topright">
-          <BaseLayer checked name="ESRI">
+          <BaseLayer name="ESRI">
             <TileLayer
               attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
             />
           </BaseLayer>
-          <BaseLayer name="Hydda">
+          <BaseLayer checked name="Hydda">
             <TileLayer
               attribution='Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
               url="https://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png"
