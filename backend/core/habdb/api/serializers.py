@@ -3,6 +3,9 @@ from habdb.models import *
 
 # HABS Recent Data
 class StationSerializer(serializers.ModelSerializer):
+	timestamp 	=	serializers.DateTimeField(format="%b %d, %Y: %I:%M:%p", required=False, read_only=True)
+	longitude	=	serializers.DecimalField(max_digits=6, decimal_places=3)
+	latitude	=	serializers.DecimalField(max_digits=6, decimal_places=3)
 	class Meta:
 		model 	= 	Station
 		fields	=	"__all__"

@@ -12,6 +12,7 @@ import {
 } from 'react-leaflet'
 
 import { popupContent, popupHead, popupText, okText } from "./popupStyle";
+import { redMarker, greenMarker, orangeMarker } from "./mapMarker";
 
 type State = {
   lat: number,
@@ -31,8 +32,12 @@ export default class MapAdvisory extends React.Component<{}, State> {
   }
 
   componentDidMount() {
-    /*axios.get("http://10.199.20.25:8000/api/station/")*/ // [for Ubuntu-001]--NOTE:when deploying from remote server, always set url to that of remote url so axios will get values from remote and not from localhost
-    axios.get("http://localhost:8000/api/station/")     //for localhost
+    this.loadStation();
+    /*this.interval = setInterval(this.loadStation(), 3000);*/
+  }
+
+  async loadStation() {
+     await axios.get("http://localhost:8000/api/station/")     //for localhost
       .then(res => {
         const station = res.data;
         this.setState({ station });
@@ -42,11 +47,28 @@ export default class MapAdvisory extends React.Component<{}, State> {
       })
   }
 
+  componentDidUpdate(prevProps, prevState) {
+
+    if (prevProps.station !== this.props.station) {
+      this.timer = setTimeout(this.loadStation(), 3000);
+    }
+
+    /*this.timer = setTimeout(this.loadStation(), 3000);*/
+    /*setTimeout(this.loadStation(), 3000);*/
+    /*this.interval = setInterval(this.loadStation(), 3000);*/
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+    clearTimeout(this.timer);
+  }
+
   render() {
     const position = [12.599512, 121.984222];
     const {station} = this.state;
+
     return (
-      <Map center={[12.599512, 121.984222]} zoom={6}>
+      <Map center={position} zoom={6}>
         <LayersControl position="topright">
           <BaseLayer name="ESRI">
             <TileLayer
@@ -62,13 +84,14 @@ export default class MapAdvisory extends React.Component<{}, State> {
           </BaseLayer>
           
             {station.map((station, i) => {
-              return ( 
 
+              return ( 
                 <Overlay checked name={station.station_name}>
                   <LayerGroup>
                     <Marker 
                       key={i} 
-                      position={{lat:station.latitude, lng:station.longitude}}>
+                      position={{lat:station.latitude, lng:station.longitude}}
+                      icon={station.hasHab ? redMarker : greenMarker}>
                       <Popup>
                         <div style={popupContent}>
                           <div style={popupHead}>
@@ -77,12 +100,12 @@ export default class MapAdvisory extends React.Component<{}, State> {
                           <div style={popupText}>
                           <table>
                             <tr>
-                              <td>Last Updated:</td>
-                              <td>dummy</td> 
+                              <td>Coordinates:</td>
+                              <td>({station.longitude}, {station.latitude})</td> 
                             </tr>
                             <tr>
-                              <td>Predictive Model Status:</td>
-                              <td>0</td> 
+                              <td>Last Updated:</td>
+                              <td>{station.timestamp}</td> 
                             </tr>
                           </table>
                           </div>

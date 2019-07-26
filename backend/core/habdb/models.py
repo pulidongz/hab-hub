@@ -5,9 +5,16 @@ from django.contrib.gis.db import models as geomodels
 # S T A R T   O F   H A B S   R E C E N T   D A T A
 class Station(models.Model):
     station_name 	=	models.CharField(max_length=100, unique=True)
-    longitude 		= 	models.DecimalField(max_digits=13, decimal_places=5)
-    latitude 		= 	models.DecimalField(max_digits=13, decimal_places=5)
+    longitude 		= 	models.DecimalField(max_digits=13, decimal_places=10)
+    latitude 		= 	models.DecimalField(max_digits=13, decimal_places=10)
     station_depth 	= 	models.DecimalField(max_digits=10, decimal_places=3)
+    timestamp 		=	models.DateTimeField(auto_now_add=True)
+    # has_hab = [
+    # 	('true', 'Positive'),
+    # 	('false', 'Negative'),
+    # ]
+    # hasHab			=	models.CharField(max_length=5, choices=has_hab, default='NEGATIVE')
+    hasHab 			= models.BooleanField(default=False) 
     location		=	geomodels.PointField(default='POINT(121.98 12.5)')
 
     def __str__(self):
