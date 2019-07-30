@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.serializers import ReadOnlyField
 from habdb.models import *
 
 # HABS Recent Data
@@ -11,6 +12,9 @@ class StationSerializer(serializers.ModelSerializer):
 		fields	=	"__all__"
 
 class SensorSerializer(serializers.ModelSerializer):
+	date 			=	serializers.DateField(format="%b %d, %Y", required=False, read_only=True)
+	time 			=	serializers.DateTimeField(format="%I:%M:%p", required=False, read_only=True)
+	station_name	=	serializers.CharField(source='station_name.station_name', read_only=True)
 	class Meta:
 		model 	= 	Sensor
 		fields	=	"__all__"
@@ -21,6 +25,7 @@ class PlanktonSerializer(serializers.ModelSerializer):
 		fields	=	"__all__"
 
 class SampleSerializer(serializers.ModelSerializer):
+	station 	=	serializers.CharField(source='station.station_name', read_only=True)
 	class Meta:
 		model 	= 	Sample
 		fields	=	"__all__"

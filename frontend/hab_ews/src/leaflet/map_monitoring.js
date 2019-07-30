@@ -26,16 +26,27 @@ export default class MapMonitoring extends React.Component<{}, State> {
   constructor(props) {
     super(props);
     this.state = {
-      station: []
+      station: [],
+      sensor: []
     };
   }
 
   componentDidMount() {
-    axios.get("http://10.199.20.25:8000/api/station/") // [for Ubuntu-001]--NOTE:when deploying from remote server, always set url to that of remote url so axios will get values from remote and not from localhost
-    /*axios.get("http://localhost:8000/api/station/")*/     //for localhost
+    /*axios.get("http://10.199.20.25:8000/api/station/")*/ // [for Ubuntu-001]--NOTE:when deploying from remote server, always set url to that of remote url so axios will get values from remote and not from localhost
+    axios.get("http://localhost:8000/api/station/")     //for localhost
       .then(res => {
         const station = res.data;
         this.setState({ station });
+      })
+      .catch(function (error) {
+      console.log(error);
+      })
+
+      /*axios.get("http://10.199.20.25:8000/api/sensor/")*/ // [for Ubuntu-001]--NOTE:when deploying from remote server, always set url to that of remote url so axios will get values from remote and not from localhost
+    axios.get("http://localhost:8000/api/sensor/")     //for localhost
+      .then(res => {
+        const sensor = res.data;
+        this.setState({ sensor });
       })
       .catch(function (error) {
       console.log(error);
@@ -45,6 +56,7 @@ export default class MapMonitoring extends React.Component<{}, State> {
   render() {
     const position = [12.599512, 121.984222];
     const {station} = this.state;
+    const {sensor} = this.state;
     return (
       <Map center={[12.599512, 121.984222]} zoom={6}>
         <LayersControl position="topright">
@@ -77,28 +89,25 @@ export default class MapMonitoring extends React.Component<{}, State> {
                           <div style={popupText}>
                           <table>
                             <tr>
-                              <td>Longitude:</td>
-                              <td>{station.longitude}</td> 
-                            </tr>
-                            <tr>
-                              <td>Latitude:</td>
-                              <td>{station.latitude}</td> 
+                              <td>Location:</td>
+                              <td>{station.longitude}, {station.latitude}</td> 
                             </tr>
                             <tr>
                               <td>Depth:</td>
                               <td>{station.station_depth} m</td> 
                             </tr>
                             <tr>
-                              <td>Sensor Last Updated:</td>
-                              <td>dummy</td> 
+                              <td>Last Updated:</td>
+                              <td>{station.timestamp}</td> 
                             </tr>
+                            <br />
                             <tr>
                               <td>Temperature:</td>
-                              <td>0°C</td> 
+                              <td>{sensor.temp}</td> 
                             </tr>
                             <tr>
                               <td>Salinity</td>
-                              <td>0</td> 
+                              <td>{sensor.salinity}</td> 
                             </tr>
                             <tr>
                               <td>pH</td>

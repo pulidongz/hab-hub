@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_tables2',
     'corsheaders',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -161,5 +162,17 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 
 # Rest Framework global settings
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES' : ('rest_framework.permissions.IsAuthenticatedOrReadOnly',)
+    'DEFAULT_PERMISSION_CLASSES' : (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+    'DEFAULT_PAGINATION_CLASS':(
+        # Enable use of limit=value&offset=value in api
+        # Usefull in limiting the number of results displayed i.e. (1)Show last entry, (2)Show
+        # The limit indicates the maximum number of items to return
+        # The offset indicates the starting position of the query in relation to the complete set of unpaginated items
+         'rest_framework.pagination.LimitOffsetPagination'
+    ),
 }

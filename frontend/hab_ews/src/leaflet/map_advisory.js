@@ -100,7 +100,7 @@ export default class MapAdvisory extends React.Component<{}, State> {
                           <div style={popupText}>
                           <table>
                             <tr>
-                              <td>Coordinates:</td>
+                              <td>Location:</td>
                               <td>({station.longitude}, {station.latitude})</td> 
                             </tr>
                             <tr>

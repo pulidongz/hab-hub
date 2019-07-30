@@ -3,6 +3,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from habdb.models import *
 from .serializers import *
+from django_filters.rest_framework import DjangoFilterBackend, FilterSet
+from rest_framework.filters import OrderingFilter
 
 ### API Viewsets for list, create, retrieve, update, partial_update, destroy ###
 
@@ -10,7 +12,8 @@ from .serializers import *
 class StationView(viewsets.ModelViewSet):
 	queryset = Station.objects.all()
 	serializer_class = StationSerializer
-	lookup_field = 'station_name'
+	filter_backends = (DjangoFilterBackend,)
+	filterset_fields = ('station_name',)
 
 	@action(methods=['get'], detail=False)
 	def newest(self, request):
@@ -21,6 +24,10 @@ class StationView(viewsets.ModelViewSet):
 class SensorView(viewsets.ModelViewSet):
 	queryset = Sensor.objects.all()
 	serializer_class = SensorSerializer
+	filter_backends = (DjangoFilterBackend, OrderingFilter)
+	filterset_fields = ('station_name__station_name',)
+	ordering_fields = ('time',)
+	ordering = ('-time')
 
 class PlanktonView(viewsets.ModelViewSet):
 	queryset = Plankton.objects.all()

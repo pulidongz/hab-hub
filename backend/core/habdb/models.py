@@ -29,7 +29,6 @@ class Station(models.Model):
 
 class Sensor(models.Model):
 	station_name	=	models.ForeignKey(Station, on_delete=models.CASCADE)
-	sensor_id 		= 	models.CharField(max_length=50)
 	date 			= 	models.DateField(auto_now=True)
 	time 			=	models.DateTimeField(auto_now=True)
 	station_depth 	=	models.DecimalField(max_digits=20, decimal_places=5, blank=True, null=True)
