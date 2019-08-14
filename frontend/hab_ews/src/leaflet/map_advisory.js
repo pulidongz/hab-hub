@@ -37,7 +37,10 @@ export default class MapAdvisory extends React.Component<{}, State> {
   }
 
   async loadStation() {
-     await axios.get("http://localhost:8000/api/station/")     //for localhost
+    /*NOTE:when deploying from remote server, always set url to that of remote url 
+    so axios will get values from remote and not from localhost*/
+    await axios.get("http://10.199.20.25:8000/api/station/")    // for Ubuntu-001
+     await axios.get("http://localhost:8000/api/station/")      // for localhost
       .then(res => {
         const station = res.data;
         this.setState({ station });
