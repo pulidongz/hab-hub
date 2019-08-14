@@ -14,7 +14,7 @@ class Station(models.Model):
     # 	('false', 'Negative'),
     # ]
     # hasHab			=	models.CharField(max_length=5, choices=has_hab, default='NEGATIVE')
-    hasHab 			= models.BooleanField(default=False) 
+    has_hab 			= models.BooleanField(default=False) 
     location		=	geomodels.PointField(default='POINT(121.98 12.5)')
 
     def __str__(self):
@@ -31,7 +31,7 @@ class Sensor(models.Model):
 	station_name	=	models.ForeignKey(Station, on_delete=models.CASCADE)
 	date 			= 	models.DateField(auto_now=True)
 	time 			=	models.DateTimeField(auto_now=True)
-	station_depth 	=	models.DecimalField(max_digits=20, decimal_places=5, blank=True, null=True)
+	sensor_depth 	=	models.DecimalField(max_digits=20, decimal_places=5, blank=True, null=True)
 	do 				= 	models.DecimalField(max_digits=20, decimal_places=5, blank=True, null=True)
 	temp 			= 	models.DecimalField(max_digits=20, decimal_places=5, blank=True, null=True)
 	salinity 		= 	models.DecimalField(max_digits=20, decimal_places=5, blank=True, null=True)
@@ -41,7 +41,7 @@ class Sensor(models.Model):
 	uv 				=	models.DecimalField(max_digits=20, decimal_places=5, blank=True, null=True)
 
 	def __str__(self):
-		return self.sensor_id
+		return '%s %s' % (self.station_name, self.time)
 
 class Plankton(models.Model):
 	group			=	models.CharField(max_length=200)

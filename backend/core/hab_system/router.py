@@ -5,6 +5,7 @@ router = routers.DefaultRouter()
 # HABS Recent Data
 router.register('station', StationView)
 router.register('sensor', SensorView)
+router.register('sensor-latest-data', SensorLatestData)
 router.register('plankton', PlanktonView)
 router.register('sample', SampleView)
 router.register('plankton_sample', PlanktonSampleView)

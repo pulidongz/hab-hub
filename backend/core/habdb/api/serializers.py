@@ -17,7 +17,19 @@ class SensorSerializer(serializers.ModelSerializer):
 	station_name	=	serializers.CharField(source='station_name.station_name', read_only=True)
 	class Meta:
 		model 	= 	Sensor
-		fields	=	"__all__"
+		fields 	=	"__all__" 
+
+class SensorLatestDataSerializer(serializers.ModelSerializer):
+	date 			=	serializers.DateField(format="%b %d, %Y", required=False, read_only=True)
+	time 			=	serializers.DateTimeField(format="%I:%M:%p", required=False, read_only=True)
+	station_name	=	serializers.CharField(source='station_name.station_name', read_only=True)
+	longitude		=	serializers.DecimalField(max_digits=6, decimal_places=3, source='station_name.longitude', read_only=True)
+	latitude		=	serializers.DecimalField(max_digits=6, decimal_places=3, source='station_name.latitude', read_only=True)
+	station_depth	=	serializers.DecimalField(max_digits=5, decimal_places=2, source='station_name.station_depth', read_only=True)
+	has_hab			=	serializers.CharField(source='station_name.has_hab', read_only=True)
+	class Meta:
+		model 	= 	Sensor
+		fields 	=	"__all__" 
 
 class PlanktonSerializer(serializers.ModelSerializer):
 	class Meta:

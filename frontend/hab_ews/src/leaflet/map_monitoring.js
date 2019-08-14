@@ -27,26 +27,15 @@ export default class MapMonitoring extends React.Component<{}, State> {
     super(props);
     this.state = {
       station: [],
-      sensor: []
     };
   }
 
   componentDidMount() {
     /*axios.get("http://10.199.20.25:8000/api/station/")*/ // [for Ubuntu-001]--NOTE:when deploying from remote server, always set url to that of remote url so axios will get values from remote and not from localhost
-    axios.get("http://localhost:8000/api/station/")     //for localhost
+    axios.get("http://localhost:8000/api/sensor-latest-data/")     //for localhost
       .then(res => {
         const station = res.data;
         this.setState({ station });
-      })
-      .catch(function (error) {
-      console.log(error);
-      })
-
-      /*axios.get("http://10.199.20.25:8000/api/sensor/")*/ // [for Ubuntu-001]--NOTE:when deploying from remote server, always set url to that of remote url so axios will get values from remote and not from localhost
-    axios.get("http://localhost:8000/api/sensor/")     //for localhost
-      .then(res => {
-        const sensor = res.data;
-        this.setState({ sensor });
       })
       .catch(function (error) {
       console.log(error);
@@ -58,7 +47,7 @@ export default class MapMonitoring extends React.Component<{}, State> {
     const {station} = this.state;
     const {sensor} = this.state;
     return (
-      <Map center={[12.599512, 121.984222]} zoom={6}>
+      <Map center={position} zoom={6}>
         <LayersControl position="topright">
           <BaseLayer name="ESRI">
             <TileLayer
@@ -93,37 +82,42 @@ export default class MapMonitoring extends React.Component<{}, State> {
                               <td>{station.longitude}, {station.latitude}</td> 
                             </tr>
                             <tr>
-                              <td>Depth:</td>
+                              <td>Station Depth:</td>
                               <td>{station.station_depth} m</td> 
                             </tr>
                             <tr>
                               <td>Last Updated:</td>
-                              <td>{station.timestamp}</td> 
+                              <td>{station.date}; {station.time}</td> 
                             </tr>
                             <br />
                             <tr>
                               <td>Temperature:</td>
-                              <td>{sensor.temp}</td> 
+                              <td>{station.temp}</td> 
                             </tr>
                             <tr>
                               <td>Salinity</td>
-                              <td>{sensor.salinity}</td> 
+                              <td>{station.salinity}</td> 
+                            </tr>
+                            <tr>
+                              <td>Turbidity</td>
+                              <td>{station.turbidity}</td> 
                             </tr>
                             <tr>
                               <td>pH</td>
-                              <td>0</td> 
+                              <td>{station.ph}</td> 
                             </tr>
                             <tr>
                               <td>Dissolved Oxygen</td>
-                              <td>0</td> 
+                              <td>{station.do}</td> 
                             </tr>
                             <tr>
                               <td>Chlorophyll-a</td>
-                              <td>0</td> 
+                              <td>{station.chl_a}</td> 
                             </tr>
+                            <br />
                             <tr>
                               <td>Predictive Model Status:</td>
-                              <td>0</td> 
+                              <td>{station.has_hab}</td> 
                             </tr>
                           </table>
                           </div>

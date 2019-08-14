@@ -91,7 +91,7 @@ export default class MapAdvisory extends React.Component<{}, State> {
                     <Marker 
                       key={i} 
                       position={{lat:station.latitude, lng:station.longitude}}
-                      icon={station.hasHab ? redMarker : greenMarker}>
+                      icon={station.has_hab ? redMarker : greenMarker}>
                       <Popup>
                         <div style={popupContent}>
                           <div style={popupHead}>

@@ -5,6 +5,7 @@ from habdb.models import *
 from .serializers import *
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from rest_framework.filters import OrderingFilter
+from django.db.models import F, Count, Min, Max, Avg
 
 ### API Viewsets for list, create, retrieve, update, partial_update, destroy ###
 
@@ -23,11 +24,43 @@ class StationView(viewsets.ModelViewSet):
 	
 class SensorView(viewsets.ModelViewSet):
 	queryset = Sensor.objects.all()
+	#queryset = Sensor.objects.values('station_name__station_name').annotate(last_entry=Max('time'))
+	#queryset = Sensor.objects.values('station_name__station_name').distinct()
 	serializer_class = SensorSerializer
 	filter_backends = (DjangoFilterBackend, OrderingFilter)
 	filterset_fields = ('station_name__station_name',)
 	ordering_fields = ('time',)
 	ordering = ('-time')
+
+	@action(methods=['get'], detail=False)
+	def newest(self, request):
+		newest = self.get_queryset().order_by('-time').last()
+		serializer = self.get_serializer_class()(newest)
+		return Response(serializer.data)
+
+	# @action(methods=['get'], detail=False)
+	# def newest(self, request):
+	# 	# newest = self.get_queryset().values('station_name__station_name').annotate(Max('time'))
+	# 	# value = Sensor.objects.order_by('station_name__station_name', '-time').distinct('station_name__station_name')
+	# 	# newest = Sensor.objects.order_by('station_name__station_name', '-time').distinct('station_name__station_name')
+	# 	query_set = Sensor.objects.order_by('station_name__station_name', '-time').distinct('station_name__station_name')
+	# 	serializer = self.get_serializer(query_set)
+	# 	return Response(serializer.data)
+
+class SensorLatestData(viewsets.ReadOnlyModelViewSet):
+	# queryset = Station.objects.all().annotate(
+	# 		time = F('Sensor__time'),
+	# 		do 	= F('Sensor__do'),
+	# 		temp = F('Sensor_temp') 
+	# 	)
+	#queryset = Sensor.objects.order_by('station_name__station_name', '-time').distinct('station_name__station_name')
+	# queryset = Sensor.objects.order_by('station_name__station_name', '-time').distinct('station_name__station_name').annotate(
+	# 		longitude = F('station__longitude'),
+	# 		latitude = F('station__latitude'),
+	# 		station_depth = F('station__station_depth')
+	# 	)
+	queryset = Sensor.objects.order_by('station_name__station_name', '-time').distinct('station_name__station_name').annotate(longitude=F('station_name__longitude'), latitude=F('station_name__latitude'), station_depth=F('station_name__station_depth'), hasHab=F('station_name__has_hab'))
+	serializer_class =  SensorLatestDataSerializer
 
 class PlanktonView(viewsets.ModelViewSet):
 	queryset = Plankton.objects.all()
