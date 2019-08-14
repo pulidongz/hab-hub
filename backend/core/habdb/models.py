@@ -41,7 +41,8 @@ class Sensor(models.Model):
 	uv 				=	models.DecimalField(max_digits=20, decimal_places=5, blank=True, null=True)
 
 	def __str__(self):
-		return '%s %s' % (self.station_name, self.time)
+		# return '%s %s' % (self.station_name, self.time)
+		return self.station_name
 
 class Plankton(models.Model):
 	group			=	models.CharField(max_length=200)

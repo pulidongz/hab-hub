@@ -24,8 +24,6 @@ class StationView(viewsets.ModelViewSet):
 	
 class SensorView(viewsets.ModelViewSet):
 	queryset = Sensor.objects.all()
-	#queryset = Sensor.objects.values('station_name__station_name').annotate(last_entry=Max('time'))
-	#queryset = Sensor.objects.values('station_name__station_name').distinct()
 	serializer_class = SensorSerializer
 	filter_backends = (DjangoFilterBackend, OrderingFilter)
 	filterset_fields = ('station_name__station_name',)
@@ -48,17 +46,6 @@ class SensorView(viewsets.ModelViewSet):
 	# 	return Response(serializer.data)
 
 class SensorLatestData(viewsets.ReadOnlyModelViewSet):
-	# queryset = Station.objects.all().annotate(
-	# 		time = F('Sensor__time'),
-	# 		do 	= F('Sensor__do'),
-	# 		temp = F('Sensor_temp') 
-	# 	)
-	#queryset = Sensor.objects.order_by('station_name__station_name', '-time').distinct('station_name__station_name')
-	# queryset = Sensor.objects.order_by('station_name__station_name', '-time').distinct('station_name__station_name').annotate(
-	# 		longitude = F('station__longitude'),
-	# 		latitude = F('station__latitude'),
-	# 		station_depth = F('station__station_depth')
-	# 	)
 	queryset = Sensor.objects.order_by('station_name__station_name', '-time').distinct('station_name__station_name').annotate(longitude=F('station_name__longitude'), latitude=F('station_name__latitude'), station_depth=F('station_name__station_depth'), hasHab=F('station_name__has_hab'))
 	serializer_class =  SensorLatestDataSerializer
 
