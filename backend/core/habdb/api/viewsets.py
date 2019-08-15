@@ -11,7 +11,7 @@ from django.db.models import F, Count, Min, Max, Avg
 
 # HABS Recent Data
 class StationView(viewsets.ModelViewSet):
-	queryset = Station.objects.all()
+	queryset = Station.objects.all().distinct()
 	serializer_class = StationSerializer
 	filter_backends = (DjangoFilterBackend,)
 	filterset_fields = ('station_name',)
