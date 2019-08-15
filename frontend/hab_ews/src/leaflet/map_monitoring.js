@@ -33,7 +33,7 @@ export default class MapMonitoring extends React.Component<{}, State> {
   componentDidMount() {
     /*NOTE:when deploying from remote server, always set url to that of remote url 
     so axios will get values from remote and not from localhost*/
-    axios.get("http://10.199.20.25:8000/api/station/")                  // for Ubuntu-001
+    axios.get("http://10.199.20.25:8000/api/sensor-latest-data/")       // for Ubuntu-001
     /*axios.get("http://localhost:8000/api/sensor-latest-data/")*/      // for localhost
       .then(res => {
         const station = res.data;
