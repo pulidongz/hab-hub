@@ -14,7 +14,6 @@ class StationSerializer(serializers.ModelSerializer):
 class SensorSerializer(serializers.ModelSerializer):
 	date 			=	serializers.DateField(format="%b %d, %Y", required=False, read_only=True)
 	time 			=	serializers.DateTimeField(format="%I:%M:%p", required=False, read_only=True)
-	station_name	=	serializers.CharField(source='station_name.station_name', read_only=True)
 	class Meta:
 		model 	= 	Sensor
 		fields 	=	"__all__" 
