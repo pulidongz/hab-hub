@@ -37,7 +37,7 @@ function Home() {
                 <Grid.Col lg={6}>
                   <Card
                     statusColor="green"
-                    title="View and Download Data From Monitoring Sites"
+                    title="Know More About HABs and The Project"
                     body={`Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                       Aperiam deleniti fugit incidunt, iste, itaque minima neque pariatur
                       perferendis sed suscipit velit vitae voluptatem. A consequuntur,
@@ -57,7 +57,7 @@ function Home() {
                 <Grid.Col lg={6}>
                   <Card
                     statusColor="green"
-                    title="Contribute Monitoring Data and Report HAB Incidences"
+                    title="View and Download Data From Monitoring Sites"
                     body={`Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                       Aperiam deleniti fugit incidunt, iste, itaque minima neque pariatur
                       perferendis sed suscipit velit vitae voluptatem. A consequuntur,
@@ -67,7 +67,7 @@ function Home() {
                 <Grid.Col lg={6}>
                   <Card
                     statusColor="green"
-                    title="Know More About HABs and The Project"
+                    title="Contribute Monitoring Data and Report HAB Incidences"
                     body={`Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                       Aperiam deleniti fugit incidunt, iste, itaque minima neque pariatur
                       perferendis sed suscipit velit vitae voluptatem. A consequuntur,

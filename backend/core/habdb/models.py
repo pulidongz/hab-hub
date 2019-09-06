@@ -14,7 +14,7 @@ class Station(models.Model):
     # 	('false', 'Negative'),
     # ]
     # hasHab			=	models.CharField(max_length=5, choices=has_hab, default='NEGATIVE')
-    has_hab 			= models.BooleanField(default=False) 
+    has_hab 		= models.BooleanField(default=False) 
     location		=	geomodels.PointField(default='POINT(121.98 12.5)')
 
     def __str__(self):

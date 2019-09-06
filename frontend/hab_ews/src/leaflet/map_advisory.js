@@ -12,13 +12,7 @@ import {
 } from 'react-leaflet'
 
 import { popupContent, popupHead, popupText, okText } from "./popupStyle";
-import { redMarker, greenMarker, orangeMarker } from "./mapMarker";
-
-type State = {
-  lat: number,
-  lng: number,
-  zoom: number,
-}
+import { redMarker, blueMarker, orangeMarker } from "./mapMarker";
 
 const { BaseLayer, Overlay } = LayersControl
 
@@ -27,7 +21,9 @@ export default class MapAdvisory extends React.Component<{}, State> {
   constructor(props) {
     super(props);
     this.state = {
-      station: []
+      center: [12.599512, 121.984222],
+      zoom: 5,
+      station: [],
     };
   }
 
@@ -39,8 +35,8 @@ export default class MapAdvisory extends React.Component<{}, State> {
   async loadStation() {
     /*NOTE:when deploying from remote server, always set url to that of remote url 
     so axios will get values from remote and not from localhost*/
-    await axios.get("http://10.199.20.25:8000/api/station/")        // for Ubuntu-001
-     /*await axios.get("http://localhost:8000/api/station/")*/      // for localhost
+    /*await axios.get("http://10.199.20.25:8000/api/station/")*/        // for Ubuntu-001
+    await axios.get("http://localhost:8000/api/station/")      // for localhost
       .then(res => {
         const station = res.data;
         this.setState({ station });
@@ -71,30 +67,29 @@ export default class MapAdvisory extends React.Component<{}, State> {
     const {station} = this.state;
 
     return (
-      <Map center={position} zoom={6}>
+      <Map className="leaflet_advisory_map" center={this.state.center} zoom={this.state.zoom} scrollWheelZoom="false">
         <LayersControl position="topright">
-          <BaseLayer name="ESRI">
+          <LayersControl.BaseLayer name="ESRI World Imagery">
             <TileLayer
               attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
             />
-          </BaseLayer>
-          <BaseLayer checked name="Hydda">
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer checked name="ESRI World Street Map">
             <TileLayer
-              attribution='Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-              url="https://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png"
+              attribution='Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+              url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
             />
-          </BaseLayer>
-          
-            {station.map((station, i) => {
-
-              return ( 
-                <Overlay checked name={station.station_name}>
-                  <LayerGroup>
+          </LayersControl.BaseLayer>
+          <LayersControl.Overlay checked name="HAB Advisory">
+            <LayerGroup>
+              {station.map((station, i) => {
+                return( 
+                  <FeatureGroup name={station.station_name}>
                     <Marker 
                       key={i} 
                       position={{lat:station.latitude, lng:station.longitude}}
-                      icon={station.has_hab ? redMarker : greenMarker}>
+                      icon={station.has_hab ? redMarker : blueMarker}>
                       <Popup>
                         <div style={popupContent}>
                           <div style={popupHead}>
@@ -104,7 +99,7 @@ export default class MapAdvisory extends React.Component<{}, State> {
                           <table>
                             <tr>
                               <td>Location:</td>
-                              <td>({station.longitude}, {station.latitude})</td> 
+                              <td>{station.longitude}, {station.latitude}</td> 
                             </tr>
                             <tr>
                               <td>Last Updated:</td>
@@ -115,12 +110,11 @@ export default class MapAdvisory extends React.Component<{}, State> {
                         </div>
                       </Popup>
                     </Marker>
-                  </LayerGroup>
-                </Overlay>
+                  </FeatureGroup>
                 )
               })}
-
-
+            </LayerGroup>
+          </LayersControl.Overlay>
         </LayersControl>
       </Map>
     )

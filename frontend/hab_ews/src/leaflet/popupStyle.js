@@ -1,7 +1,7 @@
 const popupContent = {
   textAlign: "center",
   height: "auto",
-  marginTop: "30px"
+  marginTop: "10px"
 };
 const popupHead = {
   fontWeight: "bold",
@@ -11,7 +11,7 @@ const popupHead = {
 const popupText = {
   textAlign: "left",
   fontSize: "12px",
-  marginBottom: "20px"
+  marginBottom: "10px"
 };
 
 const okText = {
