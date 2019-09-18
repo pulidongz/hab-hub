@@ -8,6 +8,8 @@
     "axios": "^0.19.0",
     "d3-scale": "^3.0.0",
     "formik": "^1.0.2",
+    "highcharts": "^7.2.0",
+    "highcharts-react-official": "^2.2.2",
     "leaflet": "^1.5.1",
     "prop-types": "^15.6.1",
     "react": "^16.9.0",

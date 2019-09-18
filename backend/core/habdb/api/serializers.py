@@ -1,6 +1,11 @@
 from rest_framework import serializers
 from rest_framework.serializers import ReadOnlyField
 from habdb.models import *
+import time
+
+class UnixformatTimeField(serializers.Field):
+    def to_representation(self, value):
+        return int(time.mktime(value.timetuple()))
 
 # HABS Recent Data
 class StationSerializer(serializers.ModelSerializer):
@@ -11,6 +16,7 @@ class StationSerializer(serializers.ModelSerializer):
 		model 	= 	Station
 		fields	=	"__all__"
 
+# GET, POST(station_name=0,1,2,etc. numbers ONLY)
 class SensorSerializer(serializers.ModelSerializer):
 	date 			=	serializers.DateField(format="%b %d, %Y", required=False, read_only=True)
 	time 			=	serializers.DateTimeField(format="%I:%M:%p", required=False, read_only=True)
@@ -18,6 +24,7 @@ class SensorSerializer(serializers.ModelSerializer):
 		model 	= 	Sensor
 		fields 	=	"__all__" 
 
+# GET, arranged chronologically from latest entry
 class SensorLatestDataSerializer(serializers.ModelSerializer):
 	date 			=	serializers.DateField(format="%b %d, %Y", required=False, read_only=True)
 	time 			=	serializers.DateTimeField(format="%I:%M:%p", required=False, read_only=True)
@@ -29,6 +36,45 @@ class SensorLatestDataSerializer(serializers.ModelSerializer):
 	class Meta:
 		model 	= 	Sensor
 		fields 	=	"__all__" 
+
+# Sensor data per nutrient
+class DynamicFieldsModelSerializer(serializers.ModelSerializer):
+    """
+    A ModelSerializer that takes an additional `fields` argument that
+    controls which fields should be displayed.
+    """
+
+    def __init__(self, *args, **kwargs):
+        # Don't pass the 'fields' arg up to the superclass
+        fields = kwargs.pop('fields', None)
+
+        # Instantiate the superclass normally
+        super(DynamicFieldsModelSerializer, self).__init__(*args, **kwargs)
+
+        if fields is not None:
+            # Drop any fields that are not specified in the `fields` argument.
+            allowed = set(fields)
+            existing = set(self.fields)
+            for field_name in existing - allowed:
+                self.fields.pop(field_name)
+
+class SensorTestSerializer(DynamicFieldsModelSerializer, serializers.HyperlinkedModelSerializer):
+	date 			=	serializers.DateField(format="%b %d, %Y", required=False, read_only=True)
+	time 			=	serializers.DateTimeField(format="%I:%M:%p", required=False, read_only=True)
+	station_name	=	serializers.CharField(source='station_name.station_name', read_only=True)
+
+	class Meta:
+		model = Sensor
+		fields = "__all__"
+
+# GET, arranged chronologically from latest entry
+class SensorDOSerializer(serializers.ModelSerializer):
+	station_name	=	serializers.CharField(source='station_name.station_name', read_only=True)
+	date 			=	serializers.DateField(format="%b %d, %Y", required=False, read_only=True)
+	unixtime 		=	UnixformatTimeField(source='time')
+	class Meta:
+		model 	= 	Sensor
+		fields 	=	('station_name','do','date', 'unixtime')
 
 class PlanktonSerializer(serializers.ModelSerializer):
 	class Meta:

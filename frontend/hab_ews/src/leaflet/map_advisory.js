@@ -8,13 +8,10 @@ import {
   Marker,
   Popup,
   TileLayer,
-  GeoJSON,
 } from 'react-leaflet'
 
-import { popupContent, popupHead, popupText, okText } from "./popupStyle";
-import { redMarker, blueMarker, orangeMarker } from "./mapMarker";
-
-const { BaseLayer, Overlay } = LayersControl
+import { popupContent, popupHead, popupText } from "./popupStyle";
+import { redMarker, blueMarker } from "./mapMarker";
 
 export default class MapAdvisory extends React.Component<{}, State> {
 
@@ -63,7 +60,6 @@ export default class MapAdvisory extends React.Component<{}, State> {
   }
 
   render() {
-    const position = [12.599512, 121.984222];
     const {station} = this.state;
 
     return (

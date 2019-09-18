@@ -8,13 +8,9 @@ import {
   Marker,
   Popup,
   TileLayer,
-  GeoJSON,
-  withLeaflet,
-  Circle,
-  Rectangle,
 } from 'react-leaflet';
-import { popupContent, popupHead, popupText, okText } from "./popupStyle";
-import { redMarker, blueMarker, orangeMarker } from "./mapMarker";
+import { popupContent, popupHead, popupText } from "./popupStyle";
+import { redMarker, blueMarker } from "./mapMarker";
 
 export default class MapMonitoring extends React.Component<{}, State> {
 
@@ -26,9 +22,14 @@ export default class MapMonitoring extends React.Component<{}, State> {
       advisoryAPI: [],
       monitoringAPI: [],
       habHistoryAPI: [],
-      siteHistoryAPI: [],
-      station: [],
+      siteHistoryAPI: []
     };
+  }
+
+  getStationName = (station_name) => {
+    console.log(station_name);
+    /*insert axios code to retrieve json from drf api using 'station_name' as pk*/
+    
   }
 
   componentDidMount() {
@@ -96,7 +97,7 @@ export default class MapMonitoring extends React.Component<{}, State> {
               url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
             />
           </LayersControl.BaseLayer>
-          <LayersControl.Overlay checked name="HAB Advisory">
+          <LayersControl.Overlay name="HAB Advisory">
             <LayerGroup>
               {advisoryAPI.map((e, i) => {
                 return( 
@@ -112,14 +113,16 @@ export default class MapMonitoring extends React.Component<{}, State> {
                           </div>
                           <div style={popupText}>
                           <table>
-                            <tr>
-                              <td>Location:</td>
-                              <td>{e.longitude}, {e.latitude}</td> 
-                            </tr>
-                            <tr>
-                              <td>Last Updated:</td>
-                              <td>{e.timestamp}</td> 
-                            </tr>
+                            <tbody>
+                              <tr>
+                                <td>Location:</td>
+                                <td>{e.longitude}, {e.latitude}</td> 
+                              </tr>
+                              <tr>
+                                <td>Last Updated:</td>
+                                <td>{e.timestamp}</td> 
+                              </tr>
+                            </tbody>
                           </table>
                           </div>
                         </div>
@@ -130,7 +133,7 @@ export default class MapMonitoring extends React.Component<{}, State> {
               })}
             </LayerGroup>
           </LayersControl.Overlay>
-          <LayersControl.Overlay name="Monitoring Sites">
+          <LayersControl.Overlay checked name="Monitoring Sites">
             <LayerGroup>
               {monitoringAPI.map((e, i) => {
                 return ( 
@@ -145,48 +148,54 @@ export default class MapMonitoring extends React.Component<{}, State> {
                             </div>
                             <div style={popupText}>
                             <table>
-                              <tr>
-                                <td>Location:</td>
-                                <td>{e.longitude}, {e.latitude}</td> 
-                              </tr>
-                              <tr>
-                                <td>Station Depth:</td>
-                                <td>{e.station_depth} m</td> 
-                              </tr>
-                              <tr>
-                                <td>Last Updated:</td>
-                                <td>{e.date}; {e.time}</td> 
-                              </tr>
-                              <br />
-                              <tr>
-                                <td>Temperature:</td>
-                                <td>{e.temp} <a href="/charts" target="_blank"><i class="fa fa-area-chart"></i></a></td> 
-                              </tr>
-                              <tr>
-                                <td>Salinity</td>
-                                <td>{e.salinity} <a href="/charts" target="_blank"><i class="fa fa-area-chart"></i></a></td> 
-                              </tr>
-                              <tr>
-                                <td>Turbidity</td>
-                                <td>{e.turbidity} <a href="/charts" target="_blank"><i class="fa fa-area-chart"></i></a></td> 
-                              </tr>
-                              <tr>
-                                <td>pH</td>
-                                <td>{e.ph} <a href="/charts" target="_blank"><i class="fa fa-area-chart"></i></a></td> 
-                              </tr>
-                              <tr>
-                                <td>Dissolved Oxygen</td>
-                                <td>{e.do} <a href="/charts" target="_blank"><i class="fa fa-area-chart"></i></a></td> 
-                              </tr>
-                              <tr>
-                                <td>Chlorophyll-a</td>
-                                <td>{e.chl_a} <a href="/charts" target="_blank"><i class="fa fa-area-chart"></i></a></td> 
-                              </tr>
-                              <br />
-                              <tr>
-                                <td>Predictive Model Status:</td>
-                                <td>{e.has_hab}</td> 
-                              </tr>
+                              <tbody>
+                                <tr>
+                                  <td>Location:</td>
+                                  <td>{e.longitude}, {e.latitude}</td> 
+                                </tr>
+                                <tr>
+                                  <td>Station Depth:</td>
+                                  <td>{e.station_depth} m</td> 
+                                </tr>
+                                <tr>
+                                  <td>Last Updated:</td>
+                                  <td>{e.date}; {e.time}</td> 
+                                </tr>
+                                <tr>
+                                  <td></td>
+                                </tr>
+                                <tr>
+                                  <td>Temperature:</td>
+                                  <td>{e.temp} <a href="/timeseries" onClick={this.getStationName.bind(this, e.station_name)} target="_blank" rel="noopener noreferrer"><i className="fa fa-area-chart"></i></a></td> 
+                                </tr>
+                                <tr>
+                                  <td>Salinity</td>
+                                  <td>{e.salinity} <a href="/charts" target="_blank" rel="noopener noreferrer"><i className="fa fa-area-chart"></i></a></td> 
+                                </tr>
+                                <tr>
+                                  <td>Turbidity</td>
+                                  <td>{e.turbidity} <a href="/charts" target="_blank" rel="noopener noreferrer"><i className="fa fa-area-chart"></i></a></td> 
+                                </tr>
+                                <tr>
+                                  <td>pH</td>
+                                  <td>{e.ph} <a href="/charts" target="_blank" rel="noopener noreferrer"><i className="fa fa-area-chart"></i></a></td> 
+                                </tr>
+                                <tr>
+                                  <td>Dissolved Oxygen</td>
+                                  <td>{e.do} <a href="/charts" target="_blank" rel="noopener noreferrer"><i className="fa fa-area-chart"></i></a></td> 
+                                </tr>
+                                <tr>
+                                  <td>Chlorophyll-a</td>
+                                  <td>{e.chl_a} <a href="/charts" target="_blank" rel="noopener noreferrer"><i className="fa fa-area-chart"></i></a></td> 
+                                </tr>
+                                <tr>
+                                  <td></td>
+                                </tr>
+                                <tr>
+                                  <td>Predictive Model Status:</td>
+                                  <td>{e.has_hab}</td> 
+                                </tr>
+                              </tbody>
                             </table>
                             </div>
                           </div>
@@ -212,48 +221,50 @@ export default class MapMonitoring extends React.Component<{}, State> {
                             </div>
                             <div style={popupText}>
                             <table>
-                              <tr>
-                                <td>Location:</td>
-                                <td>{e.longitude}, {e.latitude}</td> 
-                              </tr>
-                              <tr>
-                                <td>Station Depth:</td>
-                                <td>{e.station_depth} m</td> 
-                              </tr>
-                              <tr>
-                                <td>Last Updated:</td>
-                                <td>{e.date}; {e.time}</td> 
-                              </tr>
-                              <br />
-                              <tr>
-                                <td>Temperature:</td>
-                                <td>{e.temp}</td> 
-                              </tr>
-                              <tr>
-                                <td>Salinity</td>
-                                <td>{e.salinity}</td> 
-                              </tr>
-                              <tr>
-                                <td>Turbidity</td>
-                                <td>{e.turbidity}</td> 
-                              </tr>
-                              <tr>
-                                <td>pH</td>
-                                <td>{e.ph}</td> 
-                              </tr>
-                              <tr>
-                                <td>Dissolved Oxygen</td>
-                                <td>{e.do}</td> 
-                              </tr>
-                              <tr>
-                                <td>Chlorophyll-a</td>
-                                <td>{e.chl_a}</td> 
-                              </tr>
-                              <br />
-                              <tr>
-                                <td>Predictive Model Status:</td>
-                                <td>{e.has_hab}</td> 
-                              </tr>
+                              <tbody>
+                                <tr>
+                                  <td>Location:</td>
+                                  <td>{e.longitude}, {e.latitude}</td> 
+                                </tr>
+                                <tr>
+                                  <td>Station Depth:</td>
+                                  <td>{e.station_depth} m</td> 
+                                </tr>
+                                <tr>
+                                  <td>Last Updated:</td>
+                                  <td>{e.date}; {e.time}</td> 
+                                </tr>
+                                <br />
+                                <tr>
+                                  <td>Temperature:</td>
+                                  <td>{e.temp}</td> 
+                                </tr>
+                                <tr>
+                                  <td>Salinity</td>
+                                  <td>{e.salinity}</td> 
+                                </tr>
+                                <tr>
+                                  <td>Turbidity</td>
+                                  <td>{e.turbidity}</td> 
+                                </tr>
+                                <tr>
+                                  <td>pH</td>
+                                  <td>{e.ph}</td> 
+                                </tr>
+                                <tr>
+                                  <td>Dissolved Oxygen</td>
+                                  <td>{e.do}</td> 
+                                </tr>
+                                <tr>
+                                  <td>Chlorophyll-a</td>
+                                  <td>{e.chl_a}</td> 
+                                </tr>
+                                <br />
+                                <tr>
+                                  <td>Predictive Model Status:</td>
+                                  <td>{e.has_hab}</td> 
+                                </tr>
+                              </tbody>
                             </table>
                             </div>
                           </div>
@@ -279,48 +290,50 @@ export default class MapMonitoring extends React.Component<{}, State> {
                             </div>
                             <div style={popupText}>
                             <table>
-                              <tr>
-                                <td>Location:</td>
-                                <td>{e.longitude}, {e.latitude}</td> 
-                              </tr>
-                              <tr>
-                                <td>Station Depth:</td>
-                                <td>{e.station_depth} m</td> 
-                              </tr>
-                              <tr>
-                                <td>Last Updated:</td>
-                                <td>{e.date}; {e.time}</td> 
-                              </tr>
-                              <br />
-                              <tr>
-                                <td>Temperature:</td>
-                                <td>{e.temp}</td> 
-                              </tr>
-                              <tr>
-                                <td>Salinity</td>
-                                <td>{e.salinity}</td> 
-                              </tr>
-                              <tr>
-                                <td>Turbidity</td>
-                                <td>{e.turbidity}</td> 
-                              </tr>
-                              <tr>
-                                <td>pH</td>
-                                <td>{e.ph}</td> 
-                              </tr>
-                              <tr>
-                                <td>Dissolved Oxygen</td>
-                                <td>{e.do}</td> 
-                              </tr>
-                              <tr>
-                                <td>Chlorophyll-a</td>
-                                <td>{e.chl_a}</td> 
-                              </tr>
-                              <br />
-                              <tr>
-                                <td>Predictive Model Status:</td>
-                                <td>{e.has_hab}</td> 
-                              </tr>
+                              <tbody>
+                                <tr>
+                                  <td>Location:</td>
+                                  <td>{e.longitude}, {e.latitude}</td> 
+                                </tr>
+                                <tr>
+                                  <td>Station Depth:</td>
+                                  <td>{e.station_depth} m</td> 
+                                </tr>
+                                <tr>
+                                  <td>Last Updated:</td>
+                                  <td>{e.date}; {e.time}</td> 
+                                </tr>
+                                <br />
+                                <tr>
+                                  <td>Temperature:</td>
+                                  <td>{e.temp}</td> 
+                                </tr>
+                                <tr>
+                                  <td>Salinity</td>
+                                  <td>{e.salinity}</td> 
+                                </tr>
+                                <tr>
+                                  <td>Turbidity</td>
+                                  <td>{e.turbidity}</td> 
+                                </tr>
+                                <tr>
+                                  <td>pH</td>
+                                  <td>{e.ph}</td> 
+                                </tr>
+                                <tr>
+                                  <td>Dissolved Oxygen</td>
+                                  <td>{e.do}</td> 
+                                </tr>
+                                <tr>
+                                  <td>Chlorophyll-a</td>
+                                  <td>{e.chl_a}</td> 
+                                </tr>
+                                <br />
+                                <tr>
+                                  <td>Predictive Model Status:</td>
+                                  <td>{e.has_hab}</td> 
+                                </tr>
+                              </tbody>
                             </table>
                             </div>
                           </div>

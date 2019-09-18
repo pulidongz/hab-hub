@@ -26,7 +26,6 @@ class SensorView(viewsets.ModelViewSet):
 	queryset = Sensor.objects.all()
 	serializer_class = SensorSerializer
 	filter_backends = (DjangoFilterBackend, OrderingFilter)
-	filterset_fields = ('station_name__station_name',)
 	ordering_fields = ('time',)
 	ordering = ('-time')
 
@@ -48,6 +47,30 @@ class SensorView(viewsets.ModelViewSet):
 class SensorLatestData(viewsets.ReadOnlyModelViewSet):
 	queryset = Sensor.objects.order_by('station_name__station_name', '-time').distinct('station_name__station_name').annotate(longitude=F('station_name__longitude'), latitude=F('station_name__latitude'), station_depth=F('station_name__station_depth'), hasHab=F('station_name__has_hab'))
 	serializer_class =  SensorLatestDataSerializer
+
+# Sensor data per nutrient
+class Sensor_Dynamic(viewsets.ModelViewSet):
+	queryset = Sensor.objects.all()
+	serializer_class = SensorTestSerializer
+	filter_backends = (DjangoFilterBackend, OrderingFilter)
+	filterset_fields = ('station_name__station_name',)
+	ordering_fields = ('time',)
+	ordering = ('-time')
+
+	@action(methods=['get'], detail=False)
+	def newest(self, request):
+		newest = self.get_queryset().order_by('-time').last()
+		serializer = self.get_serializer_class()(newest)
+		return Response(serializer.data)
+
+class Sensor_DO(viewsets.ReadOnlyModelViewSet):
+	queryset = Sensor.objects.all()
+	serializer_class =  SensorDOSerializer
+	filter_backends = (DjangoFilterBackend, OrderingFilter)
+	filterset_fields = ('station_name',)
+	ordering_fields = ('time',)
+	ordering = ('-time')
+	
 
 class PlanktonView(viewsets.ModelViewSet):
 	queryset = Plankton.objects.all()
