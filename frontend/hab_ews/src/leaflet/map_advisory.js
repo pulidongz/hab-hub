@@ -81,9 +81,8 @@ export default class MapAdvisory extends React.Component<{}, State> {
             <LayerGroup>
               {station.map((station, i) => {
                 return( 
-                  <FeatureGroup name={station.station_name}>
-                    <Marker 
-                      key={i} 
+                  <FeatureGroup name={station.station_name} key={i}>
+                    <Marker
                       position={{lat:station.latitude, lng:station.longitude}}
                       icon={station.has_hab ? redMarker : blueMarker}>
                       <Popup>
@@ -93,14 +92,16 @@ export default class MapAdvisory extends React.Component<{}, State> {
                           </div>
                           <div style={popupText}>
                           <table>
-                            <tr>
-                              <td>Location:</td>
-                              <td>{station.longitude}, {station.latitude}</td> 
-                            </tr>
-                            <tr>
-                              <td>Last Updated:</td>
-                              <td>{station.timestamp}</td> 
-                            </tr>
+                            <tbody>
+                              <tr>
+                                <td>Location:</td>
+                                <td>{station.longitude}, {station.latitude}</td> 
+                              </tr>
+                              <tr>
+                                <td>Last Updated:</td>
+                                <td>{station.timestamp}</td> 
+                              </tr>
+                              </tbody>
                           </table>
                           </div>
                         </div>

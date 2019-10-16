@@ -7,7 +7,6 @@ router.register('station', StationView)
 router.register('sensor', SensorView)
 router.register('sensor-latest-data', SensorLatestData)
 # Sensor data per nutrient
-router.register('sensor_dynamic', Sensor_Dynamic)
 router.register('sensor_do', Sensor_DO)
 
 router.register('plankton', PlanktonView)

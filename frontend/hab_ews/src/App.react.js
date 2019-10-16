@@ -35,6 +35,7 @@ import BlogPage from "./components/BlogPage.react";
 import "tabler-react/dist/Tabler.css";
 
 import Timeseries from "./components/timeseries";
+import TimeTesting from "./components/testing";
 
 import VideoOverlayExample from "./leaflet/examples/video-overlay";
 import VectorLayersExample from "./leaflet/examples/vector-layers";
@@ -77,6 +78,7 @@ function App(props: Props): React.Node {
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/store" component={StoreCardsPage} />
           <Route exact path="/timeseries" component={Timeseries} />
+          <Route exact path="/timetesting" component={TimeTesting} />
           <Route component={Error404} />
         </Switch>
       </Router>

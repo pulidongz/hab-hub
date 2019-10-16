@@ -10,7 +10,7 @@ class SensorDataGraph extends Component {
 		super();
 		this.state = {
 		  data : []
-   	}
+   		}
 	}
 
 	async componentDidMount(){

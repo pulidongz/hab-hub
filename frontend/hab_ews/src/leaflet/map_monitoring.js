@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
   FeatureGroup,
@@ -11,9 +12,28 @@ import {
 } from 'react-leaflet';
 import { popupContent, popupHead, popupText } from "./popupStyle";
 import { redMarker, blueMarker } from "./mapMarker";
+import { modal, modalMain, displayBlock, displayNone } from "../components/modalStyle";
+import Timeseries from "../components/timeseries";
+import TimeTesting from "../components/testing";
+/*import PropTypes from 'prop-types';*/
 
-export default class MapMonitoring extends React.Component<{}, State> {
+import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
 
+const customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  }
+};
+
+
+
+export default class MapMonitoring extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,21 +42,47 @@ export default class MapMonitoring extends React.Component<{}, State> {
       advisoryAPI: [],
       monitoringAPI: [],
       habHistoryAPI: [],
-      siteHistoryAPI: []
+      siteHistoryAPI: [],
+      stationName: '',
+      stationID: null,
+      showTimeSeries: '',
+      showModal: false
     };
+
+    // Our event handlers
+    this.getStationName = this.getStationName.bind(this);
+
+    this.handleOpenModal = this.handleOpenModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
 
-  getStationName = (station_name) => {
-    console.log(station_name);
-    /*insert axios code to retrieve json from drf api using 'station_name' as pk*/
+  getStationName(name, id, timeseries){
+    this.setState(
+      {
+        stationName: name,
+        stationID: id,
+        showTimeSeries: timeseries,
+        showModal: true
+      }
+    );
+  }
+
+  handleOpenModal () {
+    this.setState({ showModal: true });
+  }
+  
+  handleCloseModal () {
+    this.setState({ showModal: false });
+  }
+
+  async componentDidMount() {
     
-  }
+  Modal.setAppElement('body');
 
-  componentDidMount() {
     /*NOTE:when deploying from remote server, always set url to that of remote url 
     so axios will get values from remote and not from localhost*/
-    /*axios.get("http://10.199.20.25:8000/api/station/")*/                // for Ubuntu-001
-    axios.get("http://localhost:8000/api/station/")                       // for localhost
+    /*await axios.get("http://10.199.20.25:8000/api/station/")*/                // for Ubuntu-001
+    await axios.get("http://localhost:8000/api/station/")                       // for localhost
       .then(res => {
         const advisoryAPI = res.data;
         this.setState({ advisoryAPI });
@@ -45,8 +91,8 @@ export default class MapMonitoring extends React.Component<{}, State> {
       console.log(error);
       })
 
-    /*axios.get("http://10.199.20.25:8000/api/sensor-latest-data/")*/     // for Ubuntu-001
-    axios.get("http://localhost:8000/api/sensor-latest-data/")            // for localhost
+    /*await axios.get("http://10.199.20.25:8000/api/sensor-latest-data/")*/     // for Ubuntu-001
+    await axios.get("http://localhost:8000/api/sensor-latest-data/")            // for localhost
       .then(res => {
         const monitoringAPI = res.data;
         this.setState({ monitoringAPI });
@@ -55,7 +101,7 @@ export default class MapMonitoring extends React.Component<{}, State> {
       console.log(error);
       })
 
-    axios.get("http://localhost:8000/api/sensor-latest-data/")            // for localhost
+    await axios.get("http://localhost:8000/api/sensor-latest-data/")            // for localhost
       .then(res => {
         const habHistoryAPI = res.data;
         this.setState({ habHistoryAPI });
@@ -64,7 +110,7 @@ export default class MapMonitoring extends React.Component<{}, State> {
       console.log(error);
       })
 
-      axios.get("http://localhost:8000/api/sensor-latest-data/")            // for localhost
+    await axios.get("http://localhost:8000/api/sensor-latest-data/")            // for localhost
       .then(res => {
         const siteHistoryAPI = res.data;
         this.setState({ siteHistoryAPI });
@@ -72,7 +118,8 @@ export default class MapMonitoring extends React.Component<{}, State> {
       .catch(function (error) {
       console.log(error);
       })
-    
+
+    /*this.getStationName(this.state.stationName, this.state.stationID, this.state.showTimeSeries);*/
   }
   
   render() {
@@ -80,10 +127,11 @@ export default class MapMonitoring extends React.Component<{}, State> {
     const {monitoringAPI} = this.state;
     const {habHistoryAPI} = this.state;
     const {siteHistoryAPI} = this.state;
+
+
+
     return (
-      <Map
-        center={this.state.center} 
-        zoom={this.state.zoom}>
+      <Map center={this.state.center} zoom={this.state.zoom}>
         <LayersControl collapsed="false" position="topright">
           <LayersControl.BaseLayer name="ESRI World Imagery">
             <TileLayer
@@ -101,9 +149,8 @@ export default class MapMonitoring extends React.Component<{}, State> {
             <LayerGroup>
               {advisoryAPI.map((e, i) => {
                 return( 
-                  <FeatureGroup name={e.station_name}>
+                  <FeatureGroup name={e.station_name} key={i}>
                     <Marker 
-                      key={i} 
                       position={{lat:e.latitude, lng:e.longitude}}
                       icon={e.has_hab ? redMarker : blueMarker}>
                       <Popup>
@@ -137,14 +184,13 @@ export default class MapMonitoring extends React.Component<{}, State> {
             <LayerGroup>
               {monitoringAPI.map((e, i) => {
                 return ( 
-                  <FeatureGroup name={e.station_name}>
+                  <FeatureGroup name={e.name} key={i}>
                       <Marker 
-                        key={i} 
                         position={{lat:e.latitude, lng:e.longitude}}>
                         <Popup>
                           <div style={popupContent}>
                             <div style={popupHead}>
-                              {e.station_name}
+                              {e.name}
                             </div>
                             <div style={popupText}>
                             <table>
@@ -165,28 +211,112 @@ export default class MapMonitoring extends React.Component<{}, State> {
                                   <td></td>
                                 </tr>
                                 <tr>
-                                  <td>Temperature:</td>
-                                  <td>{e.temp} <a href="/timeseries" onClick={this.getStationName.bind(this, e.station_name)} target="_blank" rel="noopener noreferrer"><i className="fa fa-area-chart"></i></a></td> 
+                                  <td>Temperature (°C)</td>
+                                  <td>{e.temp}</td>
+                                  <td>
+                                    <div>
+                                      <button onClick={() => {this.getStationName(e.name, e.station_name, 'temp')}}><i className="fa fa-area-chart"></i></button>
+                                      <Modal 
+                                       isOpen={this.state.showModal}
+                                       contentLabel="onRequestClose Example"
+                                       onRequestClose={this.handleCloseModal}
+                                       shouldCloseOnOverlayClick={true}
+                                      >
+                                        <Timeseries name={this.state.stationName} id={this.state.stationID} timeseries={this.state.showTimeSeries} />
+                                        <button onClick={this.handleCloseModal}>Close Modal</button>
+                                      </Modal>
+                                    </div>
+                                  </td>
                                 </tr>
                                 <tr>
-                                  <td>Salinity</td>
-                                  <td>{e.salinity} <a href="/charts" target="_blank" rel="noopener noreferrer"><i className="fa fa-area-chart"></i></a></td> 
+                                 <td>Salinity (ppt):</td>
+                                  <td>{e.salinity}</td> 
+                                  <td>
+                                    <div>
+                                      <button onClick={() => {this.getStationName(e.name, e.station_name, 'salinity')}}><i className="fa fa-area-chart"></i></button>
+                                      <Modal 
+                                       isOpen={this.state.showModal}
+                                       contentLabel="onRequestClose Example"
+                                       onRequestClose={this.handleCloseModal}
+                                       shouldCloseOnOverlayClick={true}
+                                      >
+                                        <Timeseries name={this.state.stationName} id={this.state.stationID} timeseries={this.state.showTimeSeries} />
+                                        <button onClick={this.handleCloseModal}>Close Modal</button>
+                                      </Modal>
+                                    </div>
+                                  </td>
                                 </tr>
                                 <tr>
-                                  <td>Turbidity</td>
-                                  <td>{e.turbidity} <a href="/charts" target="_blank" rel="noopener noreferrer"><i className="fa fa-area-chart"></i></a></td> 
+                                  <td>Turbidity (mg/m3):</td>
+                                  <td>{e.turbidity}</td> 
+                                  <td>
+                                    <div>
+                                      <button onClick={() => {this.getStationName(e.name, e.station_name, 'turbidity')}}><i className="fa fa-area-chart"></i></button>
+                                      <Modal 
+                                       isOpen={this.state.showModal}
+                                       contentLabel="onRequestClose Example"
+                                       onRequestClose={this.handleCloseModal}
+                                       shouldCloseOnOverlayClick={true}
+                                      >
+                                        <Timeseries name={this.state.stationName} id={this.state.stationID} timeseries={this.state.showTimeSeries} />
+                                        <button onClick={this.handleCloseModal}>Close Modal</button>
+                                      </Modal>
+                                    </div>
+                                  </td>
                                 </tr>
                                 <tr>
-                                  <td>pH</td>
-                                  <td>{e.ph} <a href="/charts" target="_blank" rel="noopener noreferrer"><i className="fa fa-area-chart"></i></a></td> 
+                                  <td>pH:</td>
+                                  <td>{e.ph}</td> 
+                                  <td>
+                                    <div>
+                                      <button onClick={() => {this.getStationName(e.name, e.station_name, 'ph')}}><i className="fa fa-area-chart"></i></button>
+                                      <Modal 
+                                       isOpen={this.state.showModal}
+                                       contentLabel="onRequestClose Example"
+                                       onRequestClose={this.handleCloseModal}
+                                       shouldCloseOnOverlayClick={true}
+                                      >
+                                        <Timeseries name={this.state.stationName} id={this.state.stationID} timeseries={this.state.showTimeSeries} />
+                                        <button onClick={this.handleCloseModal}>Close Modal</button>
+                                      </Modal>
+                                    </div>      
+                                  </td>
                                 </tr>
                                 <tr>
-                                  <td>Dissolved Oxygen</td>
-                                  <td>{e.do} <a href="/charts" target="_blank" rel="noopener noreferrer"><i className="fa fa-area-chart"></i></a></td> 
+                                  <td>Dissolved Oxygen (mg/L):</td>
+                                  <td>{e.do}</td> 
+                                  <td>
+                                    <div>
+                                      <button onClick={() => {this.getStationName(e.name, e.station_name, 'do')}}><i className="fa fa-area-chart"></i></button>
+                                      <Modal 
+                                       isOpen={this.state.showModal}
+                                       contentLabel="onRequestClose Example"
+                                       onRequestClose={this.handleCloseModal}
+                                       shouldCloseOnOverlayClick={true}
+                                      >
+                                        <Timeseries name={this.state.stationName} id={this.state.stationID} timeseries={this.state.showTimeSeries} />
+                                        <button onClick={this.handleCloseModal}>Close Modal</button>
+                                      </Modal>
+                                    </div>
+                                  </td>
                                 </tr>
                                 <tr>
-                                  <td>Chlorophyll-a</td>
-                                  <td>{e.chl_a} <a href="/charts" target="_blank" rel="noopener noreferrer"><i className="fa fa-area-chart"></i></a></td> 
+                                  <td>Chlorophyll-A (mg/m3):</td>
+                                  <td>{e.chl_a}</td> 
+                                  <td>
+                                    <div>
+                                      <button onClick={() => {this.getStationName(e.name, e.station_name, 'chl_a')}}><i className="fa fa-area-chart"></i></button>
+                                      <Modal 
+                                       isOpen={this.state.showModal}
+                                       contentLabel="onRequestClose Example"
+                                       onRequestClose={this.handleCloseModal}
+                                       shouldCloseOnOverlayClick={true}
+                                      >
+                                        <Timeseries name={this.state.stationName} id={this.state.stationID} timeseries={this.state.showTimeSeries} />
+                                        <button onClick={this.handleCloseModal}>Close Modal</button>
+                                      </Modal>
+                                    </div>
+                                  </td>
                                 </tr>
                                 <tr>
                                   <td></td>
@@ -202,7 +332,7 @@ export default class MapMonitoring extends React.Component<{}, State> {
                         </Popup>
                       </Marker>
                   </FeatureGroup>
-                 )
+                )
               })}
             </LayerGroup>
           </LayersControl.Overlay>
@@ -210,14 +340,13 @@ export default class MapMonitoring extends React.Component<{}, State> {
             <LayerGroup>
               {habHistoryAPI.map((e, i) => {
                 return ( 
-                  <FeatureGroup name={e.station_name}>
+                  <FeatureGroup name={e.name} key={i}>
                       <Marker 
-                        key={i} 
                         position={{lat:e.latitude, lng:e.longitude}}>
                         <Popup>
                           <div style={popupContent}>
                             <div style={popupHead}>
-                              {e.station_name}
+                              {e.name}
                             </div>
                             <div style={popupText}>
                             <table>
@@ -279,14 +408,13 @@ export default class MapMonitoring extends React.Component<{}, State> {
             <LayerGroup>
               {siteHistoryAPI.map((e, i) => {
                 return ( 
-                  <FeatureGroup name={e.station_name}>
+                  <FeatureGroup name={e.name} key={i} >
                       <Marker 
-                        key={i} 
                         position={{lat:e.latitude, lng:e.longitude}}>
                         <Popup>
                           <div style={popupContent}>
                             <div style={popupHead}>
-                              {e.station_name}
+                              {e.name}
                             </div>
                             <div style={popupText}>
                             <table>
@@ -340,14 +468,11 @@ export default class MapMonitoring extends React.Component<{}, State> {
                         </Popup>
                       </Marker>
                   </FeatureGroup>
-                 )
+                )
               })}
             </LayerGroup>
           </LayersControl.Overlay>
         </LayersControl>
-
-
-
       </Map>
     )
   }

@@ -26,6 +26,7 @@ class SensorView(viewsets.ModelViewSet):
 	queryset = Sensor.objects.all()
 	serializer_class = SensorSerializer
 	filter_backends = (DjangoFilterBackend, OrderingFilter)
+	filterset_fields = ('station_name',)
 	ordering_fields = ('time',)
 	ordering = ('-time')
 
@@ -49,20 +50,6 @@ class SensorLatestData(viewsets.ReadOnlyModelViewSet):
 	serializer_class =  SensorLatestDataSerializer
 
 # Sensor data per nutrient
-class Sensor_Dynamic(viewsets.ModelViewSet):
-	queryset = Sensor.objects.all()
-	serializer_class = SensorTestSerializer
-	filter_backends = (DjangoFilterBackend, OrderingFilter)
-	filterset_fields = ('station_name__station_name',)
-	ordering_fields = ('time',)
-	ordering = ('-time')
-
-	@action(methods=['get'], detail=False)
-	def newest(self, request):
-		newest = self.get_queryset().order_by('-time').last()
-		serializer = self.get_serializer_class()(newest)
-		return Response(serializer.data)
-
 class Sensor_DO(viewsets.ReadOnlyModelViewSet):
 	queryset = Sensor.objects.all()
 	serializer_class =  SensorDOSerializer

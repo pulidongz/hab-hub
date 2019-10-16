@@ -47,8 +47,7 @@ function SiteMonitoringPage(): React.Node {
       <Grid.Row>
         <Grid.Col lg={9}>
           <Container>
-            <MapMonitoring>
-            </MapMonitoring>
+            <MapMonitoring />
           </Container>
         </Grid.Col>
         <Grid.Col lg={3}>
