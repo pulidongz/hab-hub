@@ -2,9 +2,17 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
-
 import {Page, Card, Button, Form} from 'tabler-react';
 import SiteWrapper from '../SiteWrapper.react';
+
+// Load Highcharts modules
+require('highcharts/modules/exporting')(Highcharts)
+
+
+//Change value for localhost or development server
+const URL = 'localhost';
+//Biome Server
+//const URL = '10.199.20.25';
 
 export default class Timeseries extends Component {
 
@@ -17,7 +25,7 @@ export default class Timeseries extends Component {
 	}
 
 	async componentDidMount(){
-		let res = await axios.get('http://localhost:8000/api/sensor/?ordering=time', {
+		let res = await axios.get('http://'+URL+':8000/api/sensor/?ordering=time', {
 			params: {
 				station_name: JSON.stringify(this.props.id)
 			}
@@ -45,8 +53,8 @@ export default class Timeseries extends Component {
 			this.setState({label: 'pH'});
 			data = data.map(el => [
 			el[0] = (Number(el.unixtime) + (3600*16))*1000, /*Add 16 hours to adjust unix time to local timezone GMT+8*/
-			el[1] = Number(el.ph)
-			]);
+			el[1] = Number(el.ph
+)			]);
 		} else if (this.props.timeseries === 'chl_a') {
 			this.setState({label: 'Chlorophyll-A'});
 			data = data.map(el => [
@@ -83,7 +91,7 @@ export default class Timeseries extends Component {
 	  return (
 	  	//<SiteWrapper>
 			//<Page.Content>
-		        <Card>
+		        /*<Card>
 		          <Card.Header>
 		            <Card.Title>Graph of Site: </Card.Title>
 		            <Card.Options>
@@ -106,13 +114,13 @@ export default class Timeseries extends Component {
 		              </Form>
 		            </Card.Options>
 		          </Card.Header>
-		          <Card.Body>
+		          <Card.Body>*/
 		          	<HighchartsReact
 							   highcharts={Highcharts}
 							   constructorType={'stockChart'}
 							   options={options} />
-						  </Card.Body>
-		        </Card>
+						  /*</Card.Body>
+		        </Card>*/
 			//</Page.Content>
 	  	//</SiteWrapper>
 

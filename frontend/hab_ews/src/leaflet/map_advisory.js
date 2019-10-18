@@ -13,6 +13,11 @@ import {
 import { popupContent, popupHead, popupText } from "./popupStyle";
 import { redMarker, blueMarker } from "./mapMarker";
 
+//Change value for localhost or development server
+const URL = 'localhost';
+//Biome Server
+//const URL = '10.199.20.25';
+
 export default class MapAdvisory extends React.Component<{}, State> {
 
   constructor(props) {
@@ -33,7 +38,7 @@ export default class MapAdvisory extends React.Component<{}, State> {
     /*NOTE:when deploying from remote server, always set url to that of remote url 
     so axios will get values from remote and not from localhost*/
     /*await axios.get("http://10.199.20.25:8000/api/station/")*/        // for Ubuntu-001
-    await axios.get("http://localhost:8000/api/station/")      // for localhost
+    await axios.get('http://'+URL+':8000/api/station/')      // for localhost
       .then(res => {
         const station = res.data;
         this.setState({ station });
