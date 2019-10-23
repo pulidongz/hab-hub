@@ -1,15 +1,15 @@
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 import axios from 'axios';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
-import {Page, Card, Button, Form} from 'tabler-react';
-import SiteWrapper from '../SiteWrapper.react';
 
 // Load Highcharts modules
 require('highcharts/modules/exporting')(Highcharts)
 
-
-//Change value for localhost or development server
+/*  NOTE: When deploying from remote server, always set url to that
+ *  of remote url so axios will get values from remote and not from localhost.
+ *  Change value for localhost or development server
+ */
 const URL = 'localhost';
 //Biome Server
 //const URL = '10.199.20.25';
@@ -23,6 +23,19 @@ export default class Timeseries extends Component {
 		  label: ''
    		}
 	}
+
+	/*shouldComponentUpdate(nextProps, nextState){
+		const differentId = this.props.id !== nextProps.id;
+		const differentLabel = this.state.label !== nextState.label;
+		return (differentId || differentLabel);
+  }
+*/
+  /*componentDidUpdate(prevProps) {
+  // Typical usage (don't forget to compare props):
+  if (this.props.id !== prevProps.id) {
+    this.fetchData(this.props.id);
+  }
+}*/
 
 	async componentDidMount(){
 		let res = await axios.get('http://'+URL+':8000/api/sensor/?ordering=time', {
@@ -53,8 +66,8 @@ export default class Timeseries extends Component {
 			this.setState({label: 'pH'});
 			data = data.map(el => [
 			el[0] = (Number(el.unixtime) + (3600*16))*1000, /*Add 16 hours to adjust unix time to local timezone GMT+8*/
-			el[1] = Number(el.ph
-)			]);
+			el[1] = Number(el.ph)
+			]);
 		} else if (this.props.timeseries === 'chl_a') {
 			this.setState({label: 'Chlorophyll-A'});
 			data = data.map(el => [
@@ -89,41 +102,10 @@ export default class Timeseries extends Component {
 		};
 
 	  return (
-	  	//<SiteWrapper>
-			//<Page.Content>
-		        /*<Card>
-		          <Card.Header>
-		            <Card.Title>Graph of Site: </Card.Title>
-		            <Card.Options>
-		              <Form>
-		                <Form.InputGroup>
-		                  <Form.Input
-		                    className="form-control-sm"
-		                    placeholder="Search something..."
-		                    name="s"
-		                  />
-		                  <span className="input-group-btn ml-2">
-		                    <Button
-		                      size="sm"
-		                      color="default"
-		                      type="submit"
-		                      icon="search"
-		                    />
-		                  </span>
-		                </Form.InputGroup>
-		              </Form>
-		            </Card.Options>
-		          </Card.Header>
-		          <Card.Body>*/
-		          	<HighchartsReact
-							   highcharts={Highcharts}
-							   constructorType={'stockChart'}
-							   options={options} />
-						  /*</Card.Body>
-		        </Card>*/
-			//</Page.Content>
-	  	//</SiteWrapper>
-
+    	<HighchartsReact
+		   highcharts={Highcharts}
+		   constructorType={'stockChart'}
+		   options={options} />
 	  );
 	}
 }
