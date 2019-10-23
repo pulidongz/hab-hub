@@ -23,9 +23,10 @@ import Modal from 'react-modal';
  *  of remote url so axios will get values from remote and not from localhost.
  *  Change value for localhost or development server
  */
-const URL = 'localhost';
+//Localhost
+//const URL = 'localhost';
 //Biome Server
-//const URL = '10.199.20.25';
+const URL = '10.199.20.25';
 
 export default class MapMonitoring extends PureComponent {
   constructor(props) {

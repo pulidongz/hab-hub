@@ -14,9 +14,10 @@ import { popupContent, popupHead, popupText } from "./popupStyle";
 import { redMarker, blueMarker } from "./mapMarker";
 
 //Change value for localhost or development server
-const URL = 'localhost';
+//Localhost
+//const URL = 'localhost';
 //Biome Server
-//const URL = '10.199.20.25';
+const URL = '10.199.20.25';
 
 export default class MapAdvisory extends React.Component<{}, State> {
 
