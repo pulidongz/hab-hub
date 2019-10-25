@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 
 export default class TimeTesting extends Component {
 	constructor(props) {

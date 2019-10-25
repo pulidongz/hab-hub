@@ -1,6 +1,6 @@
-import React, {Component, PureComponent} from 'react';
-import {Link} from 'react-router-dom';
+import React, {PureComponent} from 'react';
 import axios from 'axios';
+import {Button} from "tabler-react";
 import {
   FeatureGroup,
   LayerGroup,
@@ -13,10 +13,8 @@ import {
 import { popupContent, popupHead, popupText } from "./popupStyle";
 import { redMarker, blueMarker } from "./mapMarker";
 import Timeseries from "../components/timeseries";
-import TimeTesting from "../components/testing";
-/*import PropTypes from 'prop-types';*/
 
-import ReactDOM from 'react-dom';
+/*import PropTypes from 'prop-types';*/
 import Modal from 'react-modal';
 
 /*  NOTE: When deploying from remote server, always set url to that
@@ -24,9 +22,9 @@ import Modal from 'react-modal';
  *  Change value for localhost or development server
  */
 //Localhost
-//const URL = 'localhost';
+const URL = 'localhost';
 //Biome Server
-const URL = '10.199.20.25';
+//const URL = '10.199.20.25';
 
 export default class MapMonitoring extends PureComponent {
   constructor(props) {
@@ -61,11 +59,11 @@ export default class MapMonitoring extends PureComponent {
     );
   }
 
-  handleOpenModal () {
+  handleOpenModal() {
     this.setState({ showModal: true });
   }
   
-  handleCloseModal () {
+  handleCloseModal() {
     this.setState({ showModal: false });
   }
 
@@ -131,7 +129,7 @@ export default class MapMonitoring extends PureComponent {
           >
           <Timeseries name={this.state.stationName} id={this.state.stationID} timeseries={this.state.showTimeSeries} />
           <div className="col text-center">
-            <button type="button" onClick={this.handleCloseModal} className="btn btn-primary">Close</button>
+            <Button type="button" onClick={this.handleCloseModal} pill color="primary">Close</Button>
           </div>
         </Modal>
         <Map center={this.state.center} zoom={this.state.zoom}>
