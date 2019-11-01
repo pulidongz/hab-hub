@@ -9,6 +9,9 @@ router.register('sensor-latest-data', SensorLatestData)
 # Sensor data per nutrient
 router.register('sensor_do', Sensor_DO)
 
+#HABS Data Download
+router.register('download', DownloadData)
+
 router.register('plankton', PlanktonView)
 router.register('sample', SampleView)
 router.register('plankton_sample', PlanktonSampleView)

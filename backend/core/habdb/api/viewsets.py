@@ -58,6 +58,19 @@ class Sensor_DO(viewsets.ReadOnlyModelViewSet):
 	ordering_fields = ('time',)
 	ordering = ('-time')
 	
+class DownloadData(viewsets.ModelViewSet):
+	queryset = Sensor.objects.all()
+	serializer_class = DownloadDataSerializer
+	filter_backends = (DjangoFilterBackend, OrderingFilter)
+	filterset_fields = ('station_name',)
+	ordering_fields = ('time',)
+	ordering = ('-time')
+
+	@action(methods=['get'], detail=False)
+	def newest(self, request):
+		newest = self.get_queryset().order_by('-time').last()
+		serializer = self.get_serializer_class()(newest)
+		return Response(serializer.data)
 
 class PlanktonView(viewsets.ModelViewSet):
 	queryset = Plankton.objects.all()

@@ -74,6 +74,19 @@ class SensorDOSerializer(serializers.ModelSerializer):
 		model 	= 	Sensor
 		fields 	=	('station_name','do','date', 'unixtime')
 
+# GET, POST for Sensor model (w/c displays "station_name=0,1,2,etc." in number format)
+class DownloadDataSerializer(DynamicFieldsModelSerializer):
+	name	 		=	serializers.CharField(source='station_name.station_name', read_only=True)
+	date 			=	serializers.DateField(format="%b-%d-%Y", required=False, read_only=True)
+	time 			=	serializers.DateTimeField(format="%I:%M:%p", required=False, read_only=True)
+	longitude		=	serializers.DecimalField(max_digits=6, decimal_places=3, source='station_name.longitude', read_only=True)
+	latitude		=	serializers.DecimalField(max_digits=6, decimal_places=3, source='station_name.latitude', read_only=True)
+	station_depth	=	serializers.DecimalField(max_digits=5, decimal_places=2, source='station_name.station_depth', read_only=True)
+	has_hab			=	serializers.CharField(source='station_name.has_hab', read_only=True)
+	class Meta:
+		model 	= 	Sensor
+		fields 	=	"__all__" 
+
 class PlanktonSerializer(serializers.ModelSerializer):
 	class Meta:
 		model 	= 	Plankton

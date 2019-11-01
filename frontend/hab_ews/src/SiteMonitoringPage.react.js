@@ -45,52 +45,111 @@ export default class SiteMonitoringPage extends PureComponent {
       chl_a       : false,
       toxicity    : false,
       speciesList : false,
-      pmr         : false
+      pmr         : false,
+      goDownload  : false
     };
 
     this.handleAllCheck = this.handleAllCheck.bind(this);
     this.handleAllUncheck = this.handleAllUncheck.bind(this);
     this.downloadFile = this.downloadFile.bind(this);
   }
-  
+  /*  NOTE: Upon initial click (onchange), toggle button acquires the current this.state.value
+   *  that is set, and then changes after the next several clicks (onchange).
+   *  Basically, if this.state.value : false, then state:false is state:true and vice versa.
+   */
   toggleBolinao = () => {
-    this.setState({bolinao: !this.state.bolinao});
+    this.setState({bolinao : !this.state.bolinao});
+    if(this.state.bolinao === false){
+      console.log("Bolinao:" + this.state.bolinao);
+      this.setState({goDownload: true});
+    }
+    else{
+      console.log("Bolinao:" + this.state.bolinao);
+    }
   }
   toggleManilaBay = () => {
     this.setState({manilaBay: !this.state.manilaBay});
+    if(this.state.manilaBay === false){
+      console.log("Manila Bay:" + this.state.manilaBay);
+      this.setState({goDownload: true});
+    }
+    else{
+      console.log("Manila Bay:" + this.state.manilaBay);
+    }
   }
   toggleRoxas = () => {
     this.setState({roxas: !this.state.roxas});
+    if(this.state.roxas === false){
+      console.log("Roxas:" + this.state.roxas);
+      this.setState({goDownload: true});
+    }
+    else{
+      console.log("Roxas:" + this.state.roxas);
+    }
   }
   toggleSamarLeyte = () => {
     this.setState({samarLeyte: !this.state.samarLeyte});
+    if(this.state.samarLeyte === false){
+      console.log("Samar-Leyte:" + this.state.samarLeyte);
+      this.setState({goDownload: true});
+    }
+    else{
+      console.log("Samar-Leyte:" + this.state.samarLeyte);
+    }
   }
   toggleTemp = () => {
     this.setState({temp: !this.state.temp});
+    if(this.state.temp === false){
+      this.setState({goDownload: true});
+    }
   }
   toggleSalinity = () => {
     this.setState({salinity: !this.state.salinity});
+    if(this.state.salinity === false){
+      this.setState({goDownload: true});
+    }
   }
   toggleTurbidity = () => {
     this.setState({turbidity: !this.state.turbidity});
+    if(this.state.turbidity === false){
+      this.setState({goDownload: true});
+    }
   }
   togglePH = () => {
     this.setState({ph: !this.state.ph});
+    if(this.state.ph === false){
+      this.setState({goDownload: true});
+    }
   }
   toggleDO = () => {
     this.setState({do: !this.state.do});
+    if(this.state.do === false){
+      this.setState({goDownload: true});
+    }
   }
   toggleChlA = () => {
     this.setState({chl_a: !this.state.chl_a});
+    if(this.state.chl_a === false){
+      this.setState({goDownload: true});
+    }
   }
   toggleToxicity = () => {
     this.setState({toxicity: !this.state.toxicity});
+    if(this.state.toxicity === false){
+      this.setState({goDownload: true});
+    }
   }
   toggleSpeciesList = () => {
     this.setState({speciesList: !this.state.speciesList});
+    if(this.state.speciesList === false){
+      this.setState({goDownload: true});
+    }
   }
   togglePMR = () => {
     this.setState({pmr: !this.state.pmr});
+    if(this.state.pmr === false){
+      this.setState({goDownload: true});
+    }
   }
 
   handleAllCheck(){
@@ -108,7 +167,8 @@ export default class SiteMonitoringPage extends PureComponent {
         chl_a       : true,
         toxicity    : true,
         speciesList : true,
-        pmr         : true
+        pmr         : true,
+        goDownload  : true
       }
     );
   }
@@ -128,16 +188,14 @@ export default class SiteMonitoringPage extends PureComponent {
         chl_a       : false,
         toxicity    : false,
         speciesList : false,
-        pmr         : false
+        pmr         : false,
+        goDownload  : false
       }
     );
   }
   
   async componentDidMount(){
-    await axios.get('http://'+URL+':8000/api/sensor/?ordering=time', {
-      params: {
-        station_name: JSON.stringify(this.props.id)
-      }})
+    await axios.get('http://'+URL+':8000/api/download/?ordering=time')
       .then(res => {
         const exportData = res.data;
         this.setState({exportData});
@@ -148,17 +206,15 @@ export default class SiteMonitoringPage extends PureComponent {
   }
 
   async downloadFile(){
-    await axios.get('http://'+URL+':8000/api/sensor/?ordering=time&station_name=11')
-      .then(res => {
-        const exportData = res.data;
-        this.setState({exportData});
-      })
-      .catch(function (error) {
-      console.log(error);
-      })
+    let obj = [];
+    if(this.state.bolinao === false){
+      obj = this.state.exportData.find(station_name => station_name === 10);
+      console.log(obj);
+    }
   }
 
   render(){
+    const goDownload = this.state.goDownload;
     const {exportData} = this.state;
     /*var csv = [];
     if(exportData !== ''){
@@ -302,9 +358,14 @@ export default class SiteMonitoringPage extends PureComponent {
                 <button type="button" className="btn btn-link" onClick={() => {this.handleAllUncheck()}}>Unselect All</button>
               </div>
               <div className="col text-center">
-                <CsvDownloader datas={exportData} filename="habdata">
+                {goDownload ? (
+                  <CsvDownloader datas={exportData} filename="habdata">
                   <Button pill color="primary" type="button" icon="download" onClick={() => {this.downloadFile()}}>Download</Button>
-                </CsvDownloader>
+                </CsvDownloader>)
+                :(
+                  <Button pill color="primary" type="button" icon="download" onClick={() => {this.handleAllUncheck()}}>Download</Button>
+                )
+                }
               </div>
             </Card.Footer>
           </Card>
