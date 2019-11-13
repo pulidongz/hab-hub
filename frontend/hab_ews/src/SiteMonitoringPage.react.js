@@ -32,21 +32,19 @@ export default class SiteMonitoringPage extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      exportData  : [],
-      bolinao     : false,
-      manilaBay   : false,
-      roxas       : false,
-      samarLeyte  : false,
-      temp        : false,
-      salinity    : false,
-      turbidity   : false,
-      ph          : false,
-      do          : false,
-      chl_a       : false,
-      toxicity    : false,
-      speciesList : false,
-      pmr         : false,
-      goDownload  : false
+      exportData                  : [],
+      dataToCsv                   : [],
+      monitoring_site             : 'all_monitoring_sites',
+      temp                        : false,
+      salinity                    : false,
+      turbidity                   : false,
+      ph                          : false,
+      do                          : false,
+      chl_a                       : false,
+      toxicity                    : false,
+      speciesList                 : false,
+      pmr                         : false,
+      goDownload                  : false
     };
 
     this.handleAllCheck = this.handleAllCheck.bind(this);
@@ -57,45 +55,11 @@ export default class SiteMonitoringPage extends PureComponent {
    *  that is set, and then changes after the next several clicks (onchange).
    *  Basically, if this.state.value : false, then state:false is state:true and vice versa.
    */
-  toggleBolinao = () => {
-    this.setState({bolinao : !this.state.bolinao});
-    if(this.state.bolinao === false){
-      console.log("Bolinao:" + this.state.bolinao);
-      this.setState({goDownload: true});
-    }
-    else{
-      console.log("Bolinao:" + this.state.bolinao);
-    }
-  }
-  toggleManilaBay = () => {
-    this.setState({manilaBay: !this.state.manilaBay});
-    if(this.state.manilaBay === false){
-      console.log("Manila Bay:" + this.state.manilaBay);
-      this.setState({goDownload: true});
-    }
-    else{
-      console.log("Manila Bay:" + this.state.manilaBay);
-    }
-  }
-  toggleRoxas = () => {
-    this.setState({roxas: !this.state.roxas});
-    if(this.state.roxas === false){
-      console.log("Roxas:" + this.state.roxas);
-      this.setState({goDownload: true});
-    }
-    else{
-      console.log("Roxas:" + this.state.roxas);
-    }
-  }
-  toggleSamarLeyte = () => {
-    this.setState({samarLeyte: !this.state.samarLeyte});
-    if(this.state.samarLeyte === false){
-      console.log("Samar-Leyte:" + this.state.samarLeyte);
-      this.setState({goDownload: true});
-    }
-    else{
-      console.log("Samar-Leyte:" + this.state.samarLeyte);
-    }
+  toggleMonitoringSite = (e) => {
+    this.setState({
+      monitoring_site: e.target.value,
+      goDownload: true
+    });
   }
   toggleTemp = () => {
     this.setState({temp: !this.state.temp});
@@ -155,20 +119,17 @@ export default class SiteMonitoringPage extends PureComponent {
   handleAllCheck(){
     this.setState(
       {
-        bolinao     : true,
-        manilaBay   : true,
-        roxas       : true,
-        samarLeyte  : true,
-        temp        : true,
-        salinity    : true,
-        turbidity   : true,
-        ph          : true,
-        do          : true,
-        chl_a       : true,
-        toxicity    : true,
-        speciesList : true,
-        pmr         : true,
-        goDownload  : true
+        monitoring_site             : 'all_monitoring_sites',
+        temp                        : true,
+        salinity                    : true,
+        turbidity                   : true,
+        ph                          : true,
+        do                          : true,
+        chl_a                       : true,
+        toxicity                    : true,
+        speciesList                 : true,
+        pmr                         : true,
+        goDownload                  : true
       }
     );
   }
@@ -176,20 +137,17 @@ export default class SiteMonitoringPage extends PureComponent {
   handleAllUncheck(){
     this.setState(
       {
-        bolinao     : false,
-        manilaBay   : false,
-        roxas       : false,
-        samarLeyte  : false,
-        temp        : false,
-        salinity    : false,
-        turbidity   : false,
-        ph          : false,
-        do          : false,
-        chl_a       : false,
-        toxicity    : false,
-        speciesList : false,
-        pmr         : false,
-        goDownload  : false
+        monitoring_site             : '',
+        temp                        : false,
+        salinity                    : false,
+        turbidity                   : false,
+        ph                          : false,
+        do                          : false,
+        chl_a                       : false,
+        toxicity                    : false,
+        speciesList                 : false,
+        pmr                         : false,
+        goDownload                  : false
       }
     );
   }
@@ -205,23 +163,37 @@ export default class SiteMonitoringPage extends PureComponent {
       })
   }
 
-  async downloadFile(){
+  downloadFile(){
     let obj = [];
-    if(this.state.bolinao === false){
-      obj = this.state.exportData.find(station_name => station_name === 10);
-      console.log(obj);
+    if(this.state.monitoring_site === 'bolinao'){
+      obj = this.state.exportData.filter(station => station.station_name === 6);
     }
+    else if(this.state.monitoring_site === 'manila_bay'){
+      obj = this.state.exportData.filter(station => station.station_name === 13);
+    }
+    else if(this.state.monitoring_site === 'roxas'){
+      obj = this.state.exportData.filter(station => station.station_name === 12);
+    }
+    else if(this.state.monitoring_site === 'samar_leyte'){
+      obj = this.state.exportData.filter(station => station.station_name === 10);
+    }
+    this.setState({dataToCsv: obj});
+    console.log(obj);
+    console.log(this.state.dataToCsv);
+    console.log(this.state.exportData);
   }
 
   render(){
+     console.log(this.state.monitoring_site);
     const goDownload = this.state.goDownload;
     const {exportData} = this.state;
+    const {dataToCsv} = this.state;
     /*var csv = [];
     if(exportData !== ''){
       csv = Papa.unparse(exportData);
     }*/
-    console.log({exportData});
-    console.log(exportData);
+    /*console.log({exportData});
+    console.log(exportData);*/
 
     const options = (
       <React.Fragment>
@@ -255,74 +227,81 @@ export default class SiteMonitoringPage extends PureComponent {
             </Card.Header>
             <Card.Body>
               <Form.Group label="Monitoring Sites">
-                <Form.Checkbox
+                <Form.Radio
                   label="Bolinao, Pangasinan"
-                  name="example-radios"
+                  name="radio_monitoring_sites"
                   value="bolinao"
-                  checked={this.state.bolinao}
-                  onChange={this.toggleBolinao}
+                  checked={this.state.monitoring_site === 'bolinao'}
+                  onChange={this.toggleMonitoringSite}
                 />
-                <Form.Checkbox
+                <Form.Radio
                   label="Manila Bay"
-                  name="example-radios"
+                  name="radio_monitoring_sites"
                   value="manila_bay"
-                  checked={this.state.manilaBay}
-                  onChange={this.toggleManilaBay}
+                  checked={this.state.monitoring_site === 'manila_bay'}
+                  onChange={this.toggleMonitoringSite}
                 />
-                <Form.Checkbox
+                <Form.Radio
                   label="Roxas, Capiz"
-                  name="example-radios"
+                  name="radio_monitoring_sites"
                   value="roxas"
-                  checked={this.state.roxas}
-                  onChange={this.toggleRoxas}
+                  checked={this.state.monitoring_site === 'roxas'}
+                  onChange={this.toggleMonitoringSite}
                 />
-                <Form.Checkbox
+                <Form.Radio
                   label="Samar - Leyte"
-                  name="example-radios"
+                  name="radio_monitoring_sites"
                   value="samar_leyte"
-                  checked={this.state.samarLeyte}
-                  onChange={this.toggleSamarLeyte}
+                  checked={this.state.monitoring_site === 'samar_leyte'}
+                  onChange={this.toggleMonitoringSite}
+                />
+                <Form.Radio
+                  label="All Sites"
+                  name="radio_monitoring_sites"
+                  value="all_monitoring_sites"
+                  checked={this.state.monitoring_site === 'all_monitoring_sites'}
+                  onChange={this.toggleMonitoringSite}
                 />
               </Form.Group>
               <Form.Group label="Sensor Data">
                 <Form.Checkbox
                   label="Temperature"
-                  name="example-radios"
+                  name="radio_sensor_data"
                   value="temp"
                   checked={this.state.temp}
                   onChange={this.toggleTemp}
                 />
                 <Form.Checkbox
                   label="Salinity"
-                  name="example-radios"
+                  name="radio_sensor_data"
                   value="salinity"
                   checked={this.state.salinity}
                   onChange={this.toggleSalinity}
                 />
                 <Form.Checkbox
                   label="Turbidity"
-                  name="example-radios"
+                  name="radio_sensor_data"
                   value="turbidity"
                   checked={this.state.turbidity}
                   onChange={this.toggleTurbidity}
                 />
                 <Form.Checkbox
                   label="pH"
-                  name="example-radios"
+                  name="radio_sensor_data"
                   value="ph"
                   checked={this.state.ph}
                   onChange={this.togglePH}
                 />
                 <Form.Checkbox
                   label="Dissolved Oxygen"
-                  name="example-radios"
+                  name="radio_sensor_data"
                   value="do"
                   checked={this.state.do}
                   onChange={this.toggleDO}
                 />
                 <Form.Checkbox
                   label="Chlorophyll-A"
-                  name="example-radios"
+                  name="radio_sensor_data"
                   value="chl_a"
                   checked={this.state.chl_a}
                   onChange={this.toggleChlA}
@@ -331,21 +310,21 @@ export default class SiteMonitoringPage extends PureComponent {
               <Form.Group label="Biological Data">
                 <Form.Checkbox
                   label="Toxicity"
-                  name="example-radios"
+                  name="radio_biological_data"
                   value="toxicity"
                   checked={this.state.toxicity}
                   onChange={this.toggleToxicity}
                 />
                 <Form.Checkbox
                   label="Species List"
-                  name="example-radios"
+                  name="radio_biological_data"
                   value="species_list"
                   checked={this.state.speciesList}
                   onChange={this.toggleSpeciesList}
                 />
                 <Form.Checkbox
                   label="Predictive Model Results"
-                  name="example-radios"
+                  name="radio_biological_data"
                   value="pmr"
                   checked={this.state.pmr}
                   onChange={this.togglePMR}
@@ -359,7 +338,7 @@ export default class SiteMonitoringPage extends PureComponent {
               </div>
               <div className="col text-center">
                 {goDownload ? (
-                  <CsvDownloader datas={exportData} filename="habdata">
+                  <CsvDownloader datas={dataToCsv} filename="habdata">
                   <Button pill color="primary" type="button" icon="download" onClick={() => {this.downloadFile()}}>Download</Button>
                 </CsvDownloader>)
                 :(
