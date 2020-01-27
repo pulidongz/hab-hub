@@ -22,9 +22,9 @@ import Modal from 'react-modal';
  *  Change value for localhost or development server
  */
 //Localhost
-//const URL = 'localhost';
+const URL = 'localhost';
 //Biome Server
-const URL = '10.199.20.25';
+//const URL = '10.199.20.25';
 
 export default class MapMonitoring extends PureComponent {
   constructor(props) {
