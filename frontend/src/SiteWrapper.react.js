@@ -67,7 +67,7 @@ const navBarItems: Array<navItem> = [
   },
   {
     value: "About",
-    to: "/empty-page",
+    to: "/about-hab",
     LinkComponent: withRouter(NavLink),
     icon: "calendar",
   },

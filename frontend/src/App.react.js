@@ -20,7 +20,7 @@ import HomePage from "./HabPortal.react";
 import SiteMonitoringPage from "./SiteMonitoringPage.react";
 import HabAdvisoryPage from "./HabAdvisoryPage.react";
 import DataContributionPage from "./DataContributionPage.react";
-
+import AboutHabPage from "./AboutHabPage.react";
 
 import FormElementsPage from "./FormElementsPage.react";
 import PricingCardsPage from "./interface/PricingCardsPage.react";
@@ -57,6 +57,7 @@ function App(props: Props): React.Node {
           <Route exact path="/site-monitoring" component={SiteMonitoringPage} />
           <Route exact path="/hab-advisory" component={HabAdvisoryPage} />
           <Route exact path="/data-contribution" component={DataContributionPage} />
+          <Route exact path="/about-hab" component={AboutHabPage} />
           <Route exact path="/video-overlay" component={VideoOverlayExample} />
           <Route exact path="/vector-layers" component={VectorLayersExample} />
           <Route exact path="/tooltip" component={TooltipExample} />
