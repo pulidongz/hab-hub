@@ -67,21 +67,9 @@ const navBarItems: Array<navItem> = [
   },
   {
     value: "About",
-    icon: "calendar",
-    subItems: [
-      { value: "Maps", to: "/maps", LinkComponent: withRouter(NavLink) },
-      { value: "Icons", to: "/icons", LinkComponent: withRouter(NavLink) },
-      { value: "Store", to: "/store", LinkComponent: withRouter(NavLink) },
-      { value: "Blog", to: "/blog", LinkComponent: withRouter(NavLink) },
-      { value: "LayerControl", to: "/layerscontrol", LinkComponent: withRouter(NavLink) },
-      { value: "OtherLayers", to: "/other-layers", LinkComponent: withRouter(NavLink) },
-    ],
-  },
-  {
-    value: "+",
-    to: "/form-elements",
-    icon: "check-square",
+    to: "/empty-page",
     LinkComponent: withRouter(NavLink),
+    icon: "calendar",
   },
 ];
 

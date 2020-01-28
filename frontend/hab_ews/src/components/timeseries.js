@@ -11,9 +11,9 @@ require('highcharts/modules/exporting')(Highcharts)
  *  Change value for localhost or development server
  */
 // Localhost
-//const URL = 'localhost';
+const URL = 'localhost';
 // Biome Server
-const URL = '10.199.20.25';
+//const URL = '10.199.20.25';
 
 export default class Timeseries extends Component {
 
