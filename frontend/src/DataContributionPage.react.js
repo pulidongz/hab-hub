@@ -47,7 +47,7 @@ function DataContributionPage(): React.Node {
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                  <Table.Row>
+                  {/*<Table.Row>
                     <Table.Col>100000</Table.Col>
                     <Table.Col>Species Count</Table.Col>
                     <Table.Col className="text-nowrap">C:\Documents\bol_species_count.xls</Table.Col>
@@ -72,7 +72,7 @@ function DataContributionPage(): React.Node {
                     <Table.Col className="w-1">
                       <Icon link={true} name="trash" />
                     </Table.Col>
-                  </Table.Row>
+                  </Table.Row>*/}
                 </Table.Body>
               </Table>
 
@@ -147,15 +147,15 @@ function DataContributionPage(): React.Node {
                 </option>
               </Form.Select>
             </Form.Group>
-            <Form.Group label={<Form.Label aside="56/100">Tell us about the incident</Form.Label>}>
-            <Form.Textarea
-              placeholder="Content.."
-              rows={6}
-            />
-          </Form.Group>
-          <Form.Group label="Upload photos">
-            <Form.FileInput />
-          </Form.Group>
+            <Form.Group label={<Form.Label aside="0/100">Tell us about the incident</Form.Label>}>
+              <Form.Textarea
+                placeholder="Content.."
+                rows={6}
+              />
+            </Form.Group>
+            <Form.Group label="Upload photos">
+              <Form.FileInput />
+            </Form.Group>
           </Card.Body>
           <Card.Footer>
             <div className="col text-center">
