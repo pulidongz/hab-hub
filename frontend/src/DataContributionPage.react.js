@@ -78,12 +78,12 @@ function DataContributionPage(): React.Node {
 
               </Card.Body>
               <Card.Footer>
-            <div className="col text-center">
-              <Button pill color="primary" icon="upload">
-                Upload Files
-              </Button>
-            </div>
-          </Card.Footer>
+                <div className="col text-center">
+                  <Button pill color="primary" icon="upload">
+                    Upload Files
+                  </Button>
+                </div>
+              </Card.Footer>
             </Card>
         </Grid.Col>
         <Grid.Col lg={12}>
@@ -94,68 +94,84 @@ function DataContributionPage(): React.Node {
           <Card.Body>
             <p>Report a HAB-related incident(i.e. water discoloration, fish kill, poisoning occurence). To contribute
             other information <a href="/about-hab"><u>contact us here</u></a>.</p>
-            <Form.Group
-              isRequired
-              label="Contributor"
-            >
-              <Form.Input name="example-text-input" />
-            </Form.Group>
-            <Form.Group
-              isRequired
-              label="Email address"
-            >
-              <Form.Input name="example-text-input" />
-            </Form.Group>
-            <Form.Group
-              isRequired
-              label="Location of incident"
-            >
-              <Form.Input name="example-text-input" />
-            </Form.Group>
-            <Form.Group label="Date of incident">
-              <Form.DatePicker
-                defaultDate={new Date("2020-01-28T05:56:26.338Z")}
-                format="mm/dd/yyyy"
-                maxYear={2100}
-                minYear={2020}
-                monthLabels={[
-                  'January',
-                  'February',
-                  'March',
-                  'April',
-                  'May',
-                  'June',
-                  'July',
-                  'August',
-                  'September',
-                  'October',
-                  'November',
-                  'December'
-                ]}
-              />
-            </Form.Group>
-            <Form.Group label="Type of incident">
-              <Form.Select>
-                <option>
-                  Water Discoloration
-                </option>
-                <option>
-                  Fish Kill
-                </option>
-                <option>
-                  Poisoning
-                </option>
-              </Form.Select>
-            </Form.Group>
-            <Form.Group label={<Form.Label aside="0/100">Tell us about the incident</Form.Label>}>
-              <Form.Textarea
-                placeholder="Content.."
-                rows={6}
-              />
-            </Form.Group>
-            <Form.Group label="Upload photos">
-              <Form.FileInput />
-            </Form.Group>
+            <Grid.Row>
+              <Grid.Col width={4}>
+                <Form.Group
+                  isRequired
+                  label="Contributor"
+                >
+                  <Form.Input name="example-text-input" />
+                </Form.Group>
+              </Grid.Col>
+              <Grid.Col width={4}>
+                <Form.Group
+                  isRequired
+                  label="Email address"
+                >
+                  <Form.Input name="example-text-input" />
+                </Form.Group>
+              </Grid.Col>
+              <Grid.Col width={4}>
+                <Form.Group
+                  isRequired
+                  label="Location of incident"
+                >
+                  <Form.Input name="example-text-input" />
+                </Form.Group>
+              </Grid.Col>
+              <Grid.Col width={4}>
+                <Form.Group label="Date of incident">
+                  <Form.DatePicker
+                    defaultDate={new Date("2020-01-28T05:56:26.338Z")}
+                    format="mm/dd/yyyy"
+                    maxYear={2100}
+                    minYear={2020}
+                    monthLabels={[
+                      'January',
+                      'February',
+                      'March',
+                      'April',
+                      'May',
+                      'June',
+                      'July',
+                      'August',
+                      'September',
+                      'October',
+                      'November',
+                      'December'
+                    ]}
+                  />
+                </Form.Group>
+              </Grid.Col>
+              <Grid.Col width={4}>
+                <Form.Group label="Type of incident">
+                  <Form.Select>
+                    <option>
+                      Water Discoloration
+                    </option>
+                    <option>
+                      Fish Kill
+                    </option>
+                    <option>
+                      Poisoning
+                    </option>
+                  </Form.Select>
+                </Form.Group>
+              </Grid.Col>
+              <Grid.Col width={4}>
+                <Form.Group label="Upload photos">
+                  <Form.FileInput />
+                </Form.Group>
+              </Grid.Col>
+              <Grid.Col width={12}>
+                <Form.Group label={<Form.Label aside="0/100">Tell us about the incident</Form.Label>}>
+                  <Form.Textarea
+                    placeholder="Content.."
+                    rows={6}
+                  />
+                </Form.Group>
+              </Grid.Col>
+            </Grid.Row>
           </Card.Body>
           <Card.Footer>
             <div className="col text-center">
