@@ -4,6 +4,14 @@ body {
   font-family: sans-serif;
 }
 
+/* a:hover, a:active {
+  text-decoration: none;
+} */
+
+.nodecorate:hover, .nodecorate:active {
+	text-decoration: none;
+}
+
 .leaflet-container {
 	height: 700px;
 	width: 100%;

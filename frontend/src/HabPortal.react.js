@@ -32,45 +32,65 @@ function Home() {
                 </Form.Group>
               </Grid.Row>
               <Grid.Row>
-                <Grid.Col lg={6}>
-                  <Card
-                    statusColor="green"
-                    title="Know More About HABs and The Project"
-                    body={`Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                <Grid.Col lg={6}>           
+                  <Card statusColor="green">
+                    <a className="nodecorate" href="/about-hab">
+                      <Card.Header>
+                          <Card.Title>Know More About HABs and The Project</Card.Title>
+                      </Card.Header>
+                    </a>
+                    <Card.Body>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                       Aperiam deleniti fugit incidunt, iste, itaque minima neque pariatur
                       perferendis sed suscipit velit vitae voluptatem. A consequuntur,
-                      deserunt eaque error nulla temporibus!`}
-                  />
+                      deserunt eaque error nulla temporibus!</p>
+                    </Card.Body>
+                  </Card>
                 </Grid.Col>
                 <Grid.Col lg={6}>
-                  <Card
-                    statusColor="green"
-                    title="View Official HAB Event Advisory"
-                    body={`Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  <Card statusColor="green">
+                    <a className="nodecorate" href="/hab-advisory">
+                      <Card.Header>
+                          <Card.Title>View Official HAB Event Advisory</Card.Title>
+                      </Card.Header>
+                    </a>
+                    <Card.Body>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                       Aperiam deleniti fugit incidunt, iste, itaque minima neque pariatur
                       perferendis sed suscipit velit vitae voluptatem. A consequuntur,
-                      deserunt eaque error nulla temporibus!`}
-                  />
+                      deserunt eaque error nulla temporibus!</p>
+                    </Card.Body>
+                  </Card>
                 </Grid.Col>
                 <Grid.Col lg={6}>
-                  <Card
-                    statusColor="green"
-                    title="View and Download Data From Monitoring Sites"
-                    body={`Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  <Card statusColor="green">
+                    <a className="nodecorate" href="/site-monitoring">
+                      <Card.Header>
+                          <Card.Title>View and Download Data From Monitoring Sites</Card.Title>
+                      </Card.Header>
+                    </a>
+                    <Card.Body>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                       Aperiam deleniti fugit incidunt, iste, itaque minima neque pariatur
                       perferendis sed suscipit velit vitae voluptatem. A consequuntur,
-                      deserunt eaque error nulla temporibus!`}
-                  />
+                      deserunt eaque error nulla temporibus!</p>
+                    </Card.Body>
+                  </Card>
                 </Grid.Col>
                 <Grid.Col lg={6}>
-                  <Card
-                    statusColor="green"
-                    title="Contribute Monitoring Data and Report HAB Incidences"
-                    body={`Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  <Card statusColor="green">
+                    <a className="nodecorate" href="/data-contribution">
+                      <Card.Header>
+                          <Card.Title>Contribute Monitoring Data and Report HAB Incidences</Card.Title>
+                      </Card.Header>
+                    </a>
+                      <Card.Body>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                       Aperiam deleniti fugit incidunt, iste, itaque minima neque pariatur
                       perferendis sed suscipit velit vitae voluptatem. A consequuntur,
-                      deserunt eaque error nulla temporibus!`}
-                  />
+                      deserunt eaque error nulla temporibus!</p>
+                    </Card.Body>
+                  </Card>
                 </Grid.Col>
               </Grid.Row>
             </Grid.Col>

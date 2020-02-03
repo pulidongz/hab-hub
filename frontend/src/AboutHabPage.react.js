@@ -14,7 +14,7 @@ function AboutHabPage() {
   		<Page.Content>
   			<Grid.Row>
 	       		<Grid.Col lg={3}>
-		       		<div className="sticky-top">
+		       		<div className="sticky-top" id="abouthab-cards">
 						<Card title="Harmful Algal Blooms" isCollapsed isCollapsible>
 					      <Card.Status color="orange"/>
 					      <Card.Body>

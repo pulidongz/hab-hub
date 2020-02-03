@@ -97,7 +97,6 @@ function DataContributionPage(): React.Node {
             <Grid.Row>
               <Grid.Col width={4}>
                 <Form.Group
-                  isRequired
                   label="Contributor"
                 >
                   <Form.Input name="example-text-input" />
@@ -105,7 +104,6 @@ function DataContributionPage(): React.Node {
               </Grid.Col>
               <Grid.Col width={4}>
                 <Form.Group
-                  isRequired
                   label="Email address"
                 >
                   <Form.Input name="example-text-input" />
@@ -113,7 +111,6 @@ function DataContributionPage(): React.Node {
               </Grid.Col>
               <Grid.Col width={4}>
                 <Form.Group
-                  isRequired
                   label="Location of incident"
                 >
                   <Form.Input name="example-text-input" />
@@ -122,7 +119,7 @@ function DataContributionPage(): React.Node {
               <Grid.Col width={4}>
                 <Form.Group label="Date of incident">
                   <Form.DatePicker
-                    defaultDate={new Date("2020-01-28T05:56:26.338Z")}
+                    defaultDate={new Date()}
                     format="mm/dd/yyyy"
                     maxYear={2100}
                     minYear={2020}
