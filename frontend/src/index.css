@@ -4,9 +4,9 @@ body {
   font-family: sans-serif;
 }
 
-/* a:hover, a:active {
-  text-decoration: none;
-} */
+a:link {
+	color: #495057;
+}
 
 .nodecorate:hover, .nodecorate:active {
 	text-decoration: none;
