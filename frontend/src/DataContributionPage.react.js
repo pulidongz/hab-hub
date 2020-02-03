@@ -93,7 +93,7 @@ function DataContributionPage(): React.Node {
           </Card.Header>
           <Card.Body>
             <p>Report a HAB-related incident(i.e. water discoloration, fish kill, poisoning occurence). To contribute
-            other information <a href="/about-hab"><u>contact us here</u></a>.</p>
+            other information <a href="/about-hab#contact_info"><u>contact us here</u></a>.</p>
             <Grid.Row>
               <Grid.Col width={4}>
                 <Form.Group
