@@ -1,3 +1,10 @@
-*.pyc
-frontend/hab_ews/node_modules/.cache/
-backend/core/habdb/migrations/
+env
+**/*.pyc
+**/__pycache__
+frontend/node_modules/
+backend/habdb/migrations/
+
+db.sqlite3
+build
+static
+package-lock.json
